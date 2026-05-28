@@ -76,7 +76,7 @@
     <header class="sticky top-0 bg-white/95 backdrop-blur border-b border-slate-100 z-40 px-6 py-4 shadow-sm">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <!-- Logotipo Corporativo con Bandera -->
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="window.switchMainTab('catalogo', 'hero-cover')">
                 <div class="h-10 w-1.5 bg-gradient-to-b from-italiaGreen via-white to-italiaRed rounded-full"></div>
                 <div>
                     <h1 class="font-display font-extrabold text-lg text-[#0F172A] tracking-wider leading-none flex items-center gap-1.5">
@@ -90,10 +90,10 @@
 
             <!-- Menú de Navegación -->
             <nav class="hidden md:flex items-center gap-8 text-xs font-bold tracking-wider uppercase text-slate-600">
-                <a href="#hero-cover" class="hover:text-brandOrange transition-colors">Inicio</a>
-                <a href="#section-catalog" class="hover:text-brandOrange transition-colors">Mostrario</a>
-                <a href="#section-contact-vendedor" class="hover:text-brandOrange transition-colors">Hablar con Vendedor</a>
-                <button onclick="window.switchMainTab('turnos')" class="hover:text-brandOrange transition-colors">Fila Virtual</button>
+                <button onclick="window.switchMainTab('catalogo', 'hero-cover')" class="hover:text-brandOrange transition-colors uppercase">Inicio</button>
+                <button onclick="window.switchMainTab('catalogo', 'section-catalog')" class="hover:text-brandOrange transition-colors uppercase">Ofertas</button>
+                <button onclick="window.switchMainTab('catalogo', 'section-contact-vendedor')" class="hover:text-brandOrange transition-colors uppercase">Contactar con Vendedor</button>
+                <button onclick="window.switchMainTab('turnos')" class="hover:text-brandOrange transition-colors uppercase">Fila Virtual</button>
             </nav>
 
             <!-- Acciones -->
@@ -101,13 +101,16 @@
                 <button onclick="window.abrirModalAdmin()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold px-4 py-2.5 rounded-xl transition-all border border-slate-200">
                     <i class="fa-solid fa-lock mr-1.5 text-brandOrange"></i> Acceso Admin
                 </button>
-                <a href="#section-contact-vendedor" class="bg-brandOrange hover:bg-orange-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-md shadow-orange-500/10">
+                <button onclick="window.switchMainTab('catalogo', 'section-contact-vendedor')" class="hidden sm:flex bg-brandOrange hover:bg-orange-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-md shadow-orange-500/10 items-center">
                     <i class="fa-solid fa-headset mr-1.5"></i> Venta Directa
-                </a>
+                </button>
             </div>
         </div>
     </header>
 
+    <!-- MAIN APP WRAPPER -->
+    <div id="main-catalog-view">
+        
     <!-- HERO COVER SECTION -->
     <section id="hero-cover" class="relative py-14 px-6 overflow-hidden bg-white border-b border-slate-100">
         <div class="absolute inset-0 bg-[linear-gradient(to_right,#0f172a03_1px,transparent_1px),linear-gradient(to_bottom,#0f172a03_1px,transparent_1px)] bg-[size:3.5rem_3.5rem]"></div>
@@ -126,12 +129,12 @@
                     Explora nuestra vitrina digital de ofertas destacadas, selecciona el producto que necesitas y consulta su disponibilidad directamente con un vendedor de nuestro local por WhatsApp.
                 </p>
                 <div class="flex flex-wrap gap-4 pt-2">
-                    <a href="#section-catalog" class="bg-brandOrange hover:bg-orange-600 text-white font-extrabold px-6 py-3.5 rounded-xl transition-all shadow-lg shadow-orange-500/20 text-xs tracking-wider uppercase">
+                    <button onclick="window.switchMainTab('catalogo', 'section-catalog')" class="bg-brandOrange hover:bg-orange-600 text-white font-extrabold px-6 py-3.5 rounded-xl transition-all shadow-lg shadow-orange-500/20 text-xs tracking-wider uppercase">
                         Ver Ofertas Destacadas
-                    </a>
-                    <a href="#section-contact-vendedor" class="bg-white hover:bg-slate-50 border border-slate-300 text-slate-800 font-extrabold px-6 py-3.5 rounded-xl transition-all text-xs tracking-wider uppercase shadow-sm">
+                    </button>
+                    <button onclick="window.switchMainTab('catalogo', 'section-contact-vendedor')" class="bg-white hover:bg-slate-50 border border-slate-300 text-slate-800 font-extrabold px-6 py-3.5 rounded-xl transition-all text-xs tracking-wider uppercase shadow-sm">
                         Contacto Directo WhatsApp
-                    </a>
+                    </button>
                 </div>
             </div>
             
@@ -151,7 +154,7 @@
     <div id="main-app-content" class="flex-grow max-w-7xl mx-auto px-4 py-12 w-full space-y-16">
 
         <!-- SECCIÓN: CONTACTO HUMANO & ASESORÍA EXPRESS -->
-        <section id="section-contact-vendedor" class="grid lg:grid-cols-3 gap-8 bg-white border border-slate-200/80 rounded-3xl p-6 shadow-xl relative overflow-hidden">
+        <section id="section-contact-vendedor" class="grid lg:grid-cols-3 gap-8 bg-white border border-slate-200/80 rounded-3xl p-6 shadow-xl relative overflow-hidden scroll-mt-24">
             <!-- Columna Izquierda: Información de Ventas de la Casa -->
             <div class="lg:col-span-1 space-y-6 lg:border-r border-slate-100 lg:pr-8 flex flex-col justify-between">
                 <div>
@@ -159,7 +162,7 @@
                         <div class="bg-brandOrange text-white h-7 w-7 rounded-lg flex items-center justify-center text-xs shadow-sm">
                             <i class="fa-solid fa-user-tie"></i>
                         </div>
-                        <h3 class="font-display font-bold text-sm tracking-wider uppercase text-slate-950">Contacto Directo</h3>
+                        <h3 class="font-display font-bold text-sm tracking-wider uppercase text-slate-950">Contactar con Vendedor</h3>
                     </div>
                     
                     <h4 class="font-display font-bold text-base text-slate-900 leading-snug">¿Prefieres atención personalizada?</h4>
@@ -169,18 +172,18 @@
 
                     <!-- Números Directos del Local -->
                     <div class="mt-6 space-y-3">
-                        <a href="tel:+56412234567" class="flex items-center gap-3 p-3 bg-slate-50 rounded-xl hover:bg-slate-100 border border-slate-100 transition-all text-xs">
+                        <a href="tel:+56412234567" class="ui-tel-fijo-link flex items-center gap-3 p-3 bg-slate-50 rounded-xl hover:bg-slate-100 border border-slate-100 transition-all text-xs">
                             <span class="h-8 w-8 rounded-lg bg-orange-100 text-brandOrange flex items-center justify-center shrink-0 font-bold"><i class="fa-solid fa-phone"></i></span>
                             <div>
                                 <p class="font-bold text-slate-800">Llamar Teléfono Fijo</p>
-                                <p class="text-[10px] text-slate-400 font-mono font-medium">+56 41 223 4567</p>
+                                <p class="ui-tel-fijo-text text-[10px] text-slate-400 font-mono font-medium">+56 41 223 4567</p>
                             </div>
                         </a>
-                        <a href="https://wa.me/56912345678" target="_blank" class="flex items-center gap-3 p-3 bg-emerald-50/50 rounded-xl hover:bg-emerald-50 border border-emerald-100 transition-all text-xs">
+                        <a href="https://wa.me/56912345678" target="_blank" class="ui-tel-wa-link flex items-center gap-3 p-3 bg-emerald-50/50 rounded-xl hover:bg-emerald-50 border border-emerald-100 transition-all text-xs">
                             <span class="h-8 w-8 rounded-lg bg-emerald-500 text-white flex items-center justify-center shrink-0 font-bold"><i class="fa-brands fa-whatsapp text-sm"></i></span>
                             <div>
                                 <p class="font-bold text-emerald-800">WhatsApp Ventas General</p>
-                                <p class="text-[10px] text-emerald-600 font-mono font-medium">+56 9 1234 5678</p>
+                                <p class="ui-tel-wa-text text-[10px] text-emerald-600 font-mono font-medium">+56 9 1234 5678</p>
                             </div>
                         </a>
                     </div>
@@ -222,18 +225,18 @@
                             <button onclick="document.getElementById('sales-custom-msg').value = 'Hola, quisiera cotizar herramientas eléctricas Makita o Dewalt que tengan disponibles para terminaciones de baño y cocina.';" class="text-[11px] font-semibold text-slate-700 bg-white hover:bg-slate-100 border border-slate-200 hover:border-slate-350 py-1.5 px-3 rounded-lg shadow-sm transition-all">⚡ Consulta de Herramientas</button>
                         </div>
                     </div>
+                        <div class="absolute inset-0 bg-gradient-to-r from-brandOrange/10 to-emerald-500/10 blur-3xl rounded-full"></div>
+                        <div class="bg-white border border-slate-200/80 p-3 rounded-[2.5rem] shadow-2xl max-w-md mx-auto">
+                            <div class="overflow-hidden rounded-[2rem] border border-slate-100">
+                                <img src="https://images.unsplash.com/photo-1504148455328-c376907d081c?auto=format&fit=crop&w=600&q=80" alt="Ferretería Profesional" class="w-full h-80 object-cover filter brightness-95">
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="pt-2">
-                    <button onclick="window.enviarMensajeVendedorDirecto()" class="w-full bg-[#25D366] hover:bg-[#1f9c4d] text-white font-extrabold py-3.5 rounded-xl flex items-center justify-center gap-2.5 transition-all text-xs uppercase tracking-wider shadow-lg shadow-emerald-600/15">
-                        <i class="fa-brands fa-whatsapp text-base"></i> Enviar Mensaje a Vendedor por WhatsApp
-                    </button>
-                </div>
-            </div>
-        </section>
+            </section>
 
         <!-- SECCIÓN: MOSTRARIO DIGITAL DE PRODUCTOS -->
-        <section id="section-catalog" class="space-y-6">
+        <section id="section-catalog" class="space-y-6 scroll-mt-24">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 border-b border-slate-100 pb-3">
                 <div>
                     <h3 class="font-display font-extrabold text-2xl tracking-tight text-slate-900 uppercase">Vitrina de Ofertas</h3>
@@ -291,7 +294,7 @@
                         <span class="h-9 w-9 rounded-full bg-slate-50 flex items-center justify-center border border-slate-100 shadow-sm shrink-0"><i class="fa-solid fa-phone text-slate-500 text-xs"></i></span>
                         <div>
                             <h4 class="text-xs font-bold text-slate-900">Teléfono Directo de Local</h4>
-                            <p class="text-xs text-slate-500 mt-0.5 leading-relaxed font-medium">+56 41 223 4567</p>
+                            <p class="ui-tel-fijo-text text-xs text-slate-500 mt-0.5 leading-relaxed font-medium">+56 41 223 4567</p>
                         </div>
                     </div>
                 </div>
@@ -318,11 +321,17 @@
         </section>
 
     </div>
+    </div>
 
     <!-- PESTAÑA SECUNDARIA: CONTROL DE TURNOS DE ATENCIÓN PRESENCIAL -->
-    <section id="section-turns" class="hidden max-w-4xl mx-auto px-4 py-12 w-full space-y-8">
-        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
-            <div class="text-center max-w-xl mx-auto space-y-2">
+    <section id="section-turns" class="hidden flex-grow max-w-4xl mx-auto px-4 py-12 w-full space-y-8">
+        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6 relative overflow-hidden">
+            <!-- Botón Volver (Nuevo para salir de la fila virtual fácilmente) -->
+            <button onclick="window.switchMainTab('catalogo', 'hero-cover')" class="absolute top-6 left-6 text-slate-400 hover:text-brandOrange flex items-center gap-2 text-xs font-bold transition-colors">
+                <i class="fa-solid fa-arrow-left"></i> Volver a Ofertas
+            </button>
+
+            <div class="text-center max-w-xl mx-auto space-y-2 mt-6 sm:mt-0">
                 <span class="text-xs font-bold text-brandOrange bg-orange-50 border border-orange-100 py-1 px-3 rounded-full uppercase tracking-wider">Fila Virtual</span>
                 <h3 class="font-display font-extrabold text-2xl text-slate-900">Módulo de Fila Virtual - La Italiana</h3>
                 <p class="text-xs text-slate-500">Regístrate para solicitar atención prioritaria en nuestro mesón de atención en calle Villagrán 1080.</p>
@@ -387,21 +396,21 @@
             <!-- Categories -->
             <div class="space-y-4 text-xs">
                 <h5 class="text-white font-extrabold tracking-wider uppercase text-[11px]">Categorías</h5>
-                <ul class="space-y-2 font-medium">
-                    <li><a href="#section-catalog" class="hover:text-white transition-colors">Obra Gruesa</a></li>
-                    <li><a href="#section-catalog" class="hover:text-white transition-colors">Techumbre Redmat</a></li>
-                    <li><a href="#section-catalog" class="hover:text-white transition-colors">Maquinaria Eléctrica</a></li>
-                    <li><a href="#section-catalog" class="hover:text-white transition-colors">Terminaciones</a></li>
+                <ul class="space-y-2 font-medium flex flex-col items-start">
+                    <li><button onclick="window.switchMainTab('catalogo', 'section-catalog')" class="hover:text-white transition-colors text-left">Obra Gruesa</button></li>
+                    <li><button onclick="window.switchMainTab('catalogo', 'section-catalog')" class="hover:text-white transition-colors text-left">Techumbre Redmat</button></li>
+                    <li><button onclick="window.switchMainTab('catalogo', 'section-catalog')" class="hover:text-white transition-colors text-left">Maquinaria Eléctrica</button></li>
+                    <li><button onclick="window.switchMainTab('catalogo', 'section-catalog')" class="hover:text-white transition-colors text-left">Terminaciones</button></li>
                 </ul>
             </div>
 
             <!-- Corporate -->
             <div class="space-y-4 text-xs">
                 <h5 class="text-white font-extrabold tracking-wider uppercase text-[11px]">Corporativo</h5>
-                <ul class="space-y-2 font-medium">
-                    <li><a href="#" class="hover:text-white transition-colors">Nuestra Historia</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">Convenios y Empresas</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">Políticas de Devoluciones</a></li>
+                <ul class="space-y-2 font-medium flex flex-col items-start">
+                    <li><button onclick="window.switchMainTab('catalogo', 'hero-cover')" class="hover:text-white transition-colors text-left">Nuestra Historia</button></li>
+                    <li><button onclick="window.switchMainTab('catalogo', 'section-contact-vendedor')" class="hover:text-white transition-colors text-left">Convenios y Empresas</button></li>
+                    <li><button class="hover:text-white transition-colors text-left">Políticas de Devoluciones</button></li>
                 </ul>
             </div>
 
@@ -420,7 +429,7 @@
             <p>&copy; 2026 Ferretería La Italiana • Cañete. Todos los derechos reservados.</p>
             <div class="flex items-center gap-2">
                 <button onclick="window.abrirModalAdmin()" class="hover:text-white transition-all font-mono font-bold flex items-center gap-1.5">
-                    <i class="fa-solid fa-screwdriver-wrench text-brandOrange"></i> Consola Operadora (Mostrario & Sincronización)
+                    <i class="fa-solid fa-screwdriver-wrench text-brandOrange"></i> Consola Operadora (Ofertas & Contactos)
                 </button>
             </div>
         </div>
@@ -440,23 +449,62 @@
         // Estado local de la aplicación
         window.localState = {
             products: [...CATALOGO_INICIAL_DISENO],
-            turns: [
-                { id: "t1", nombre: "Juan Pérez", contacto: "987654321", area: "Mesón Ventas Materiales", estado: "Esperando", numero: "105" },
-                { id: "t2", nombre: "María Contreras", contacto: "912345678", area: "Proyectos / Techado", estado: "En Atención", numero: "106" }
-            ],
-            category: 'Todos'
+            turns: [],
+            category: 'Todos',
+            settings: { whatsapp: "56912345678", fijo: "+56 41 223 4567" }
         };
 
         window.firebaseDB = null;
         window.appId = 'ferreteria-italiana-canete';
 
-        // Carga de productos desde memoria localStorage para no perder los productos que suba el usuario localmente si no conecta Firebase
+        // Carga de productos desde memoria localStorage
         try {
             const savedLocal = localStorage.getItem("la_italiana_local_products_maestro");
-            if (savedLocal) {
-                window.localState.products = JSON.parse(savedLocal);
-            }
+            if (savedLocal) window.localState.products = JSON.parse(savedLocal);
+            
+            const savedSettings = localStorage.getItem("la_italiana_local_settings");
+            if (savedSettings) window.localState.settings = JSON.parse(savedSettings);
         } catch(e) {}
+
+        // Renderizar Contactos Dinámicos
+        window.renderContactos = function() {
+            const wa = window.localState.settings.whatsapp || "56912345678";
+            const fijo = window.localState.settings.fijo || "+56 41 223 4567";
+            
+            if(document.getElementById('cfg-wa')) document.getElementById('cfg-wa').value = wa;
+            if(document.getElementById('cfg-fijo')) document.getElementById('cfg-fijo').value = fijo;
+            
+            document.querySelectorAll('.ui-tel-fijo-text').forEach(el => el.innerText = fijo);
+            document.querySelectorAll('.ui-tel-fijo-link').forEach(el => el.href = `tel:${fijo.replace(/\s+/g, '')}`);
+            
+            let waDisplay = "+" + wa;
+            if (wa.length >= 11) waDisplay = '+' + wa.replace(/(\d{2})(\d)(\d{4})(\d{4})/, '$1 $2 $3 $4');
+
+            document.querySelectorAll('.ui-tel-wa-text').forEach(el => el.innerText = waDisplay);
+            document.querySelectorAll('.ui-tel-wa-link').forEach(el => el.href = `https://wa.me/${wa}`);
+        };
+
+        // Guardar la configuración de contactos
+        window.guardarConfiguracion = async function() {
+            const wa = document.getElementById('cfg-wa').value.trim().replace(/\+/g, '');
+            const fijo = document.getElementById('cfg-fijo').value.trim();
+            
+            if(!wa || !fijo) return window.showToast("Ambos números son obligatorios", "error");
+
+            const data = { whatsapp: wa, fijo: fijo };
+            
+            if (window.firebaseDB) {
+                try {
+                    await window.firebaseDB.collection(`artifacts/${window.appId}/public/data/configuracion`).doc('general').set(data);
+                    window.showToast("Contactos actualizados en la nube", "success");
+                } catch(e) { window.showToast("Error de permisos en Firebase", "error"); }
+            } else {
+                window.localState.settings = data;
+                localStorage.setItem("la_italiana_local_settings", JSON.stringify(data));
+                window.renderContactos();
+                window.showToast("Contactos actualizados localmente", "success");
+            }
+        };
 
         // Notificaciones Premium de la Aplicación
         window.showToast = function(msg, type="success") {
@@ -486,19 +534,33 @@
             setTimeout(() => div.remove(), 4000);
         };
 
-        // Control de Pestañas Principales (Catálogo / Turnos)
-        window.switchMainTab = function(tab) {
+        // Control de Pestañas (Navegación Fluida con Botón Back)
+        window.switchMainTab = function(tab, hash = '') {
             const isCat = tab === 'catalogo';
             
-            // Ocultar o mostrar secciones
-            document.getElementById("hero-cover").style.display = isCat ? 'block' : 'none';
-            document.getElementById("section-catalog").style.display = isCat ? 'block' : 'none';
-            document.getElementById("section-contact-vendedor").style.display = isCat ? 'grid' : 'none';
-            document.getElementById("section-location").style.display = isCat ? 'grid' : 'none';
-            document.getElementById("section-turns").style.display = !isCat ? 'block' : 'none';
+            const mainView = document.getElementById("main-catalog-view");
+            if (mainView) mainView.style.display = isCat ? 'block' : 'none';
+            
+            const turnosView = document.getElementById("section-turns");
+            if (turnosView) {
+                turnosView.style.display = !isCat ? 'block' : 'none';
+                turnosView.classList.toggle("hidden", isCat);
+            }
             
             if (!isCat) {
-                window.scrollTo({ top: document.getElementById("section-turns").offsetTop - 100, behavior: 'smooth' });
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else if (hash) {
+                setTimeout(() => {
+                    const el = document.getElementById(hash);
+                    if (el) {
+                        const y = el.getBoundingClientRect().top + window.pageYOffset - 90; // offset por el menú
+                        window.scrollTo({top: y, behavior: 'smooth'});
+                    } else {
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                }, 50);
+            } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         };
 
@@ -512,6 +574,7 @@
                 document.getElementById("admin-panel").classList.remove("hidden"); 
                 document.getElementById("admin-panel").classList.add("flex");
                 window.renderTables();
+                window.renderContactos();
             } else {
                 window.showToast("Clave de Administrador Incorrecta", "error");
             }
@@ -540,13 +603,15 @@
             setTimeout(() => modal.classList.add("hidden"), 300);
         };
 
-        // Consultar oferta de producto individual por WhatsApp
+        // Consultar oferta de producto individual por WhatsApp usando número dinámico
         window.consultarProductoWhatsApp = function(id) {
             const p = window.localState.products.find(x => x.id === id);
             if (!p) return;
             const precioTexto = p.price_offer ? `en OFERTA a $${p.price_offer.toLocaleString('es-CL')}` : `a $${p.price.toLocaleString('es-CL')}`;
             const text = `¡Hola! Me interesa consultar el stock y disponibilidad de este producto en su sucursal de Cañete:\n\n• *${p.name}* (${precioTexto})\n\nPor favor, confírmenme si tienen retiro inmediato o despacho disponible. ¡Muchas gracias!`;
-            window.open(`https://wa.me/56912345678?text=${encodeURIComponent(text)}`, "_blank");
+            
+            const numWa = window.localState.settings.whatsapp || "56912345678";
+            window.open(`https://wa.me/${numWa}?text=${encodeURIComponent(text)}`, "_blank");
         };
 
         // Renderizado Dinámico del Mostrario de Productos
@@ -691,7 +756,7 @@
             window.renderCatalog(query);
         };
 
-        // Mandar el mensaje personalizado del formulario directo al WhatsApp de un vendedor real
+        // Mandar el mensaje personalizado del formulario directo al WhatsApp del vendedor
         window.enviarMensajeVendedorDirecto = () => {
             const msg = document.getElementById("sales-custom-msg").value.trim();
             if(!msg) return window.showToast("Por favor, redacte su mensaje o seleccione un atajo.", "error");
@@ -700,7 +765,8 @@
             text += `"${msg}"\n\n`;
             text += `_Por favor, confírmeme lo antes posible para programar._`;
             
-            window.open(`https://wa.me/56912345678?text=${encodeURIComponent(text)}`, "_blank");
+            const numWa = window.localState.settings.whatsapp || "56912345678";
+            window.open(`https://wa.me/${numWa}?text=${encodeURIComponent(text)}`, "_blank");
         };
 
         // Parsear y Conectar Firebase Seguro
@@ -770,6 +836,14 @@
                             window.localState.turns = items; 
                             window.renderTables();
                         }, error => console.error("Error Turnos:", error));
+
+                        // Escuchar Configuración Global de Contacto de Firebase
+                        window.firebaseDB.collection(`artifacts/${window.appId}/public/data/configuracion`).doc('general').onSnapshot(doc => {
+                            if (doc.exists) {
+                                window.localState.settings = doc.data();
+                                window.renderContactos();
+                            }
+                        });
                     }
                 });
 
@@ -932,6 +1006,7 @@
         };
 
         // Inicialización del sistema
+        window.renderContactos();
         window.renderCatalog();
         window.renderTables();
         setTimeout(window.initFirebaseSafe, 400);
@@ -1035,8 +1110,24 @@
                     </form>
                 </div>
 
+                <!-- Tarjeta: Configuración Contacto Vendedores -->
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm mt-6">
+                    <h3 class="font-bold text-sm border-b pb-2 mb-3 text-slate-900"><i class="fa-solid fa-address-book text-brandOrange"></i> Contacto Vendedores</h3>
+                    <div class="space-y-3 text-xs">
+                        <div>
+                            <label class="block font-bold text-slate-500 mb-1">WhatsApp de Ventas (Ej: 56912345678)</label>
+                            <input type="text" id="cfg-wa" class="w-full border p-2.5 rounded-lg bg-slate-50 focus:ring-2 focus:ring-brandOrange focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-slate-500 mb-1">Teléfono Fijo (Ej: +56 41 223 4567)</label>
+                            <input type="text" id="cfg-fijo" class="w-full border p-2.5 rounded-lg bg-slate-50 focus:ring-2 focus:ring-brandOrange focus:outline-none">
+                        </div>
+                        <button onclick="window.guardarConfiguracion()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-2.5 rounded-lg transition-all shadow text-xs">Actualizar y Sincronizar Contactos</button>
+                    </div>
+                </div>
+
                 <!-- Tarjeta: Sincronización Firebase -->
-                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm bg-gradient-to-br from-white to-orange-50/20">
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm bg-gradient-to-br from-white to-orange-50/20 mt-6">
                     <h3 class="font-bold text-sm border-b pb-2 mb-3 text-slate-900"><i class="fa-solid fa-database text-brandOrange"></i> Conexión Firebase (Nube Cañete)</h3>
                     <p class="text-[10px] text-slate-500 mb-3 leading-relaxed">Pega tu script de configuración en formato JSON para conectar la base de datos.</p>
                     <textarea id="admin-firebase-config" rows="5" placeholder='{\n  "apiKey": "...",\n  "authDomain": "...",\n  "projectId": "..."\n}' class="w-full font-mono text-[10px] border p-2.5 rounded-lg bg-white focus:ring-2 focus:ring-brandOrange focus:outline-none"></textarea>
