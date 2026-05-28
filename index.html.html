@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ferretería La Italiana - Catálogo y Ventas Cañete</title>
+    <title>Ferretería La Italiana - Portal Cañete</title>
     
     <!-- Tailwind CSS para Estilos Rápidos y Autoadaptables -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -16,7 +16,7 @@
     <!-- Iconos de FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <!-- Firebase SDKs Compat para Base de Datos en Tiempo Real -->
+    <!-- Firebase SDKs Compat -->
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
@@ -27,19 +27,16 @@
                 extend: {
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
-                        display: ['Plus Jakarta Sans', 'sans-serif']
+                        display: ['Plus Jakarta Sans', 'sans-serif'],
                     },
                     colors: {
                         italiaGreen: '#0F8B45',
                         italiaRed: '#E1251B',
-                        brandOrange: '#FF5A1F',
-                        darkNavy: '#0B132B'
                     }
                 }
             }
         }
     </script>
-    
     <style>
         .custom-scroll::-webkit-scrollbar { width: 6px; }
         .custom-scroll::-webkit-scrollbar-track { background: #f1f5f9; }
@@ -47,1042 +44,330 @@
         .custom-scroll::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-6px); }
+            50% { transform: translateY(-8px); }
         }
         .animate-float {
             animation: float 4s ease-in-out infinite;
         }
     </style>
 </head>
-<body class="bg-[#FDFDFD] text-slate-800 min-h-screen flex flex-col font-sans selection:bg-brandOrange selection:text-white" id="app-body">
+<body class="bg-slate-50/50 text-slate-800 min-h-screen flex flex-col font-sans selection:bg-emerald-600 selection:text-white">
 
-    <!-- TOAST CONTENEDOR PARA NOTIFICACIONES PREMIUM (Reemplazo elegante de alert) -->
-    <div id="toast-container" class="fixed top-6 right-6 z-[100] flex flex-col gap-3 max-w-sm w-full pointer-events-none"></div>
+    <!-- NOTIFICACIONES TOAST (Reemplazo premium de alert) -->
+    <div id="toast-container" class="fixed top-6 right-6 z-50 flex flex-col gap-3 max-w-sm w-full"></div>
 
-    <!-- BARRA SUPERIOR INFORMATIVA -->
-    <div class="bg-[#0B132B] text-slate-400 py-2.5 px-6 flex justify-between items-center text-[11px] font-medium z-50 shadow-sm">
+    <!-- BARRA SUPERIOR INFO -->
+    <div class="bg-slate-950 border-b border-slate-900 py-2.5 px-6 flex justify-between items-center text-[11px] text-slate-400 gap-4 z-50">
         <div class="flex items-center gap-2.5">
-            <span id="cloud-pulse" class="inline-flex h-2.5 w-2.5 rounded-full bg-amber-500 animate-pulse"></span>
-            <span class="font-mono text-xs" id="db-status-text">Conectando base de datos Cañete...</span>
+            <span class="inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span class="font-mono">Sistema Activo // <strong class="text-white">La Italiana - Cañete</strong></span>
         </div>
-        <div class="hidden sm:flex items-center gap-4">
-            <span class="bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded font-mono text-[10px]">Atención 100% Humana</span>
-            <span class="text-slate-500">|</span>
-            <span class="font-mono">Socio Redmat Oficial</span>
+        <div class="hidden sm:flex items-center gap-2">
+            <span class="bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded font-mono text-[10px]">Gemini 2.5 Active</span>
         </div>
     </div>
 
-    <!-- CABECERA DE NAVEGACIÓN PREMIUM -->
+    <!-- CINTILLO TRICOLOR DE ITALIA -->
+    <div class="h-1.5 w-full flex">
+        <div class="bg-italiaGreen h-full w-1/3"></div>
+        <div class="bg-white h-full w-1/3 border-y border-gray-100"></div>
+        <div class="bg-italiaRed h-full w-1/3"></div>
+    </div>
+
+    <!-- ENCABEZADO / NAVIGATION -->
     <header class="sticky top-0 bg-white/95 backdrop-blur border-b border-slate-100 z-40 px-6 py-4 shadow-sm">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <!-- Logotipo Corporativo con Bandera -->
             <div class="flex items-center gap-3">
-                <div class="h-10 w-1.5 bg-gradient-to-b from-italiaGreen via-white to-italiaRed rounded-full"></div>
+                <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-italiaGreen via-white to-italiaRed p-[2px] shadow-md flex items-center justify-center">
+                    <div class="w-full h-full bg-white rounded-[10px] flex items-center justify-center">
+                        <i class="fa-solid fa-screwdriver-wrench text-xl text-italiaGreen"></i>
+                    </div>
+                </div>
                 <div>
-                    <h1 class="font-display font-extrabold text-lg text-[#0F172A] tracking-wider leading-none flex items-center gap-1.5">
-                        FERRETERÍA <span class="text-brandOrange">LA ITALIANA</span>
+                    <h1 class="font-display font-extrabold text-xl text-slate-900 tracking-wide leading-none flex items-center gap-2">
+                        Ferretería <span class="text-italiaGreen">La Italiana</span>
                     </h1>
-                    <p class="text-[10px] text-slate-500 font-bold font-mono tracking-wide mt-1">
-                        Calle Villagrán 1080, Cañete | <span class="text-italiaRed">Redmat</span>
-                    </p>
+                    <p class="text-[9px] text-slate-500 font-semibold font-mono tracking-widest mt-1">CALLE VILLAGRÁN 1080 • CAÑETE</p>
                 </div>
             </div>
 
-            <!-- Menú de Navegación -->
-            <nav class="hidden md:flex items-center gap-8 text-xs font-bold tracking-wider uppercase text-slate-600">
-                <a href="#hero-cover" class="hover:text-brandOrange transition-colors">Inicio</a>
-                <a href="#section-catalog" class="hover:text-brandOrange transition-colors">Mostrario</a>
-                <a href="#section-contact-vendedor" class="hover:text-brandOrange transition-colors">Hablar con Vendedor</a>
-                <button onclick="window.switchMainTab('turnos')" class="hover:text-brandOrange transition-colors">Fila Virtual</button>
-            </nav>
-
-            <!-- Acciones -->
-            <div class="flex items-center gap-3.5">
-                <button onclick="window.abrirModalAdmin()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold px-4 py-2.5 rounded-xl transition-all border border-slate-200">
-                    <i class="fa-solid fa-lock mr-1.5 text-brandOrange"></i> Acceso Admin
+            <div class="flex items-center gap-4">
+                <span class="hidden sm:inline-flex items-center gap-1.5 bg-slate-50 border border-slate-200 text-slate-600 text-[11px] px-3 py-1.5 rounded-full font-mono font-bold">
+                    <span class="h-1.5 w-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
+                    Socio Redmat
+                </span>
+                <button onclick="abrirModalAdmin()" class="bg-slate-900 hover:bg-black text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all flex items-center gap-2 shadow-sm">
+                    <i class="fa-solid fa-lock text-italiaRed"></i> Admin
                 </button>
-                <a href="#section-contact-vendedor" class="bg-brandOrange hover:bg-orange-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-md shadow-orange-500/10">
-                    <i class="fa-solid fa-headset mr-1.5"></i> Venta Directa
-                </a>
             </div>
         </div>
     </header>
 
-    <!-- HERO COVER SECTION -->
-    <section id="hero-cover" class="relative py-14 px-6 overflow-hidden bg-white border-b border-slate-100">
-        <div class="absolute inset-0 bg-[linear-gradient(to_right,#0f172a03_1px,transparent_1px),linear-gradient(to_bottom,#0f172a03_1px,transparent_1px)] bg-[size:3.5rem_3.5rem]"></div>
+    <!-- HERO SECTION -->
+    <section class="relative py-16 px-6 overflow-hidden bg-white border-b border-slate-100">
+        <!-- Rejilla de Fondo Retro -->
+        <div class="absolute inset-0 bg-[linear-gradient(to_right,#0f172a04_1px,transparent_1px),linear-gradient(to_bottom,#0f172a04_1px,transparent_1px)] bg-[size:3rem_3rem]"></div>
+        
         <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center relative z-10">
-            <!-- Left Info -->
-            <div class="space-y-6">
-                <span class="inline-flex items-center gap-2 bg-orange-50 border border-orange-100 text-brandOrange text-xs font-bold tracking-widest uppercase py-1.5 px-3 rounded-full">
-                    📍 CAÑETE • BIOBÍO • CHILE
+            <div>
+                <span class="inline-flex items-center gap-2 bg-emerald-500/10 text-emerald-700 text-xs font-bold tracking-widest uppercase py-1.5 px-3 rounded-md mb-6 border border-emerald-500/20">
+                    <i class="fa-solid fa-map-pin text-italiaRed animate-bounce"></i> Cañete, Provincia de Arauco
                 </span>
-                <h2 class="font-display font-extrabold text-4xl sm:text-5xl text-slate-900 leading-tight tracking-tight">
-                    TRADICIÓN<br>
-                    <span class="text-[#0F8B45]">ITALI</span><span class="text-[#E1251B]">AN</span>A,<br>
-                    CONEXIÓN LOCAL.
+                <h2 class="font-display font-extrabold text-4xl sm:text-5xl text-slate-900 tracking-tight leading-tight mb-6">
+                    Tradición italiana, <br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-italiaGreen via-slate-500 to-italiaRed">fuerza local.</span>
                 </h2>
-                <p class="text-slate-600 text-sm sm:text-base leading-relaxed max-w-md font-medium">
-                    Explora nuestra vitrina digital de ofertas destacadas, selecciona el producto que necesitas y consulta su disponibilidad directamente con un vendedor de nuestro local por WhatsApp.
+                <p class="text-slate-600 text-sm sm:text-base mb-8 leading-relaxed max-w-lg">
+                    Construyendo la provincia del Biobío desde calle Villagrán 1080. Explora nuestro catálogo y cotiza tus materiales directo por WhatsApp con nuestro equipo de expertos locales.
                 </p>
-                <div class="flex flex-wrap gap-4 pt-2">
-                    <a href="#section-catalog" class="bg-brandOrange hover:bg-orange-600 text-white font-extrabold px-6 py-3.5 rounded-xl transition-all shadow-lg shadow-orange-500/20 text-xs tracking-wider uppercase">
-                        Ver Ofertas Destacadas
-                    </a>
-                    <a href="#section-contact-vendedor" class="bg-white hover:bg-slate-50 border border-slate-300 text-slate-800 font-extrabold px-6 py-3.5 rounded-xl transition-all text-xs tracking-wider uppercase shadow-sm">
-                        Contacto Directo WhatsApp
+                <div class="flex flex-wrap gap-4">
+                    <a href="#catalogo-seccion" class="bg-italiaGreen hover:bg-emerald-700 text-white font-bold px-6 py-3 rounded-xl flex items-center gap-2 transition-all shadow-lg shadow-emerald-700/20 text-xs">
+                        <i class="fa-solid fa-truck-pickup"></i> Explora el Catálogo
                     </a>
                 </div>
             </div>
             
-            <!-- Right Mockup Visual -->
-            <div class="relative">
-                <div class="absolute inset-0 bg-gradient-to-r from-brandOrange/10 to-emerald-500/10 blur-3xl rounded-full"></div>
-                <div class="bg-white border border-slate-200/80 p-3 rounded-[2.5rem] shadow-2xl max-w-md mx-auto">
-                    <div class="overflow-hidden rounded-[2rem] border border-slate-100">
-                        <img src="https://images.unsplash.com/photo-1504148455328-c376907d081c?auto=format&fit=crop&w=600&q=80" alt="Ferretería Profesional" class="w-full h-80 object-cover filter brightness-95">
+            <!-- Tarjeta Visual del Local -->
+            <div class="relative hidden md:block">
+                <div class="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-red-500/10 blur-3xl"></div>
+                <div class="bg-slate-100 border border-slate-200 p-2.5 rounded-2xl shadow-xl relative animate-float max-w-md mx-auto">
+                    <div class="bg-white rounded-xl overflow-hidden border border-slate-200">
+                        <img src="https://olympicind.com/app/uploads/2024/05/Wood-Concrete-Steel-Construction-Olympic-Industries-1800x1013.jpg" alt="Materiales" class="w-full h-48 object-cover filter brightness-95" onerror="this.src='https://placehold.co/600x400/fff/333?text=La+Italiana+Materiales'">
+                        <div class="p-5 bg-white">
+                            <h4 class="font-display font-bold text-slate-900 text-sm mb-1 flex items-center gap-2">
+                                <i class="fa-solid fa-square-poll-horizontal text-italiaGreen"></i> Conectado a Redmat Chile
+                            </h4>
+                            <p class="text-xs text-slate-500 leading-relaxed">Disponibilidad asegurada en planchas, maderas, cementos y herramientas con despacho directo a faena en toda la comuna.</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- MAIN APP WRAPPER -->
-    <div id="main-app-content" class="flex-grow max-w-7xl mx-auto px-4 py-12 w-full space-y-16">
-
-        <!-- SECCIÓN: CONTACTO HUMANO & ASESORÍA EXPRESS -->
-        <section id="section-contact-vendedor" class="grid lg:grid-cols-3 gap-8 bg-white border border-slate-200/80 rounded-3xl p-6 shadow-xl relative overflow-hidden">
-            <!-- Columna Izquierda: Información de Ventas de la Casa -->
-            <div class="lg:col-span-1 space-y-6 lg:border-r border-slate-100 lg:pr-8 flex flex-col justify-between">
-                <div>
-                    <div class="flex items-center gap-2.5 mb-4">
-                        <div class="bg-brandOrange text-white h-7 w-7 rounded-lg flex items-center justify-center text-xs shadow-sm">
-                            <i class="fa-solid fa-user-tie"></i>
-                        </div>
-                        <h3 class="font-display font-bold text-sm tracking-wider uppercase text-slate-950">Contacto Directo</h3>
-                    </div>
-                    
-                    <h4 class="font-display font-bold text-base text-slate-900 leading-snug">¿Prefieres atención personalizada?</h4>
-                    <p class="text-xs text-slate-500 mt-2 leading-relaxed">
-                        Evita las esperas. Si necesitas consultar un precio, cubicación de maderas o solicitar un despacho en camión a faena en la zona, puedes escribirle directamente a nuestro equipo en Cañete.
-                    </p>
-
-                    <!-- Números Directos del Local -->
-                    <div class="mt-6 space-y-3">
-                        <a href="tel:+56412234567" class="flex items-center gap-3 p-3 bg-slate-50 rounded-xl hover:bg-slate-100 border border-slate-100 transition-all text-xs">
-                            <span class="h-8 w-8 rounded-lg bg-orange-100 text-brandOrange flex items-center justify-center shrink-0 font-bold"><i class="fa-solid fa-phone"></i></span>
-                            <div>
-                                <p class="font-bold text-slate-800">Llamar Teléfono Fijo</p>
-                                <p class="text-[10px] text-slate-400 font-mono font-medium">+56 41 223 4567</p>
-                            </div>
-                        </a>
-                        <a href="https://wa.me/56912345678" target="_blank" class="flex items-center gap-3 p-3 bg-emerald-50/50 rounded-xl hover:bg-emerald-50 border border-emerald-100 transition-all text-xs">
-                            <span class="h-8 w-8 rounded-lg bg-emerald-500 text-white flex items-center justify-center shrink-0 font-bold"><i class="fa-brands fa-whatsapp text-sm"></i></span>
-                            <div>
-                                <p class="font-bold text-emerald-800">WhatsApp Ventas General</p>
-                                <p class="text-[10px] text-emerald-600 font-mono font-medium">+56 9 1234 5678</p>
-                            </div>
-                        </a>
-                    </div>
+    <!-- CUERPO DE LA APLICACIÓN -->
+    <main id="catalogo-seccion" class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <!-- COLUMNA IZQUIERDA Y CENTRAL: CATÁLOGO DE PRODUCTOS -->
+        <section class="lg:col-span-2 space-y-6">
+            <!-- Barra de Filtros y Categorías -->
+            <div class="bg-white p-4 rounded-xl border border-slate-100 shadow-sm flex flex-wrap gap-2 items-center justify-between">
+                <div class="flex flex-wrap gap-1.5" id="category-filters">
+                    <button onclick="filtrarCategoria('Todos')" class="cat-btn px-4 py-2 rounded-lg text-xs font-bold transition-all bg-italiaGreen text-white shadow-sm" id="btn-cat-Todos">Todos</button>
+                    <button onclick="filtrarCategoria('Obra Gruesa')" class="cat-btn px-4 py-2 rounded-lg text-xs font-bold transition-all bg-slate-50 border border-slate-200 text-slate-600 hover:bg-slate-100" id="btn-cat-Obra-Gruesa">Obra Gruesa</button>
+                    <button onclick="filtrarCategoria('Techumbre')" class="cat-btn px-4 py-2 rounded-lg text-xs font-bold transition-all bg-slate-50 border border-slate-200 text-slate-600 hover:bg-slate-100" id="btn-cat-Techumbre">Techumbre</button>
+                    <button onclick="filtrarCategoria('Herramientas')" class="cat-btn px-4 py-2 rounded-lg text-xs font-bold transition-all bg-slate-50 border border-slate-200 text-slate-600 hover:bg-slate-100" id="btn-cat-Herramientas">Herramientas</button>
+                    <button onclick="filtrarCategoria('Terminaciones')" class="cat-btn px-4 py-2 rounded-lg text-xs font-bold transition-all bg-slate-50 border border-slate-200 text-slate-600 hover:bg-slate-100" id="btn-cat-Terminaciones">Terminaciones</button>
                 </div>
-
-                <div class="bg-orange-50 border border-orange-100 p-4 rounded-2xl mt-6 lg:mt-0 text-[11px] text-slate-600 font-medium">
-                    <p class="text-brandOrange font-bold text-xs flex items-center gap-1.5 mb-1">
-                        <i class="fa-solid fa-circle-info"></i> Despachos Rápidos
-                    </p>
-                    Ofrecemos camión de reparto para maderas, cemento y techumbres a Cañete, Contulmo, Curanilahue y cercanías.
+                <div class="relative w-full sm:w-auto mt-2 sm:mt-0">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                    <input type="text" id="search-input" oninput="buscarProducto()" placeholder="Buscar material..." class="w-full sm:w-64 pl-9 pr-4 py-2 rounded-lg text-xs border border-slate-200 focus:outline-none focus:ring-2 focus:ring-italiaGreen bg-slate-50">
                 </div>
             </div>
 
-            <!-- Columna Central/Derecha: Panel para enviar mensaje rápido al WhatsApp del vendedor -->
-            <div class="lg:col-span-2 bg-slate-50/50 rounded-2xl border border-slate-100 p-6 flex flex-col justify-between space-y-6">
-                <div class="space-y-4">
-                    <div class="border-b border-slate-200 pb-3 flex items-center justify-between">
+            <!-- Catálogo de Tarjetas -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6" id="catalog-grid"></div>
+        </section>
+
+        <!-- COLUMNA DERECHA: ASISTENTE DE IA Y COTIZADOR WHATSAPP -->
+        <section class="space-y-6">
+            <!-- Asistente IA de Cotizaciones -->
+            <div class="bg-white rounded-xl border border-slate-100 shadow-sm overflow-hidden flex flex-col h-[350px]">
+                <div class="bg-gradient-to-r from-italiaGreen to-emerald-700 text-white px-5 py-4 flex items-center justify-between shadow-sm">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-circle-nodes text-base text-white animate-pulse"></i>
                         <div>
-                            <span class="text-[10px] font-bold text-brandOrange uppercase tracking-widest block mb-0.5">Venta Directa Cañete</span>
-                            <h4 class="font-display font-extrabold text-lg text-slate-900">Mándale un Mensaje al Vendedor de Turno</h4>
+                            <h3 class="font-display font-bold text-xs leading-none">Asistente Virtual La Italiana</h3>
+                            <span id="api-status" class="text-[9px] text-emerald-200 font-medium">Cargando...</span>
                         </div>
-                        <span class="bg-emerald-100 text-emerald-800 text-[10px] font-extrabold px-2.5 py-1 rounded-full uppercase tracking-wider flex items-center gap-1.5">
-                            <span class="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></span> En Línea
-                        </span>
                     </div>
-
-                    <!-- Caja para simular o redactar el mensaje de consulta rápida -->
-                    <div class="space-y-3">
-                        <label class="block text-xs font-bold text-slate-500">¿Qué materiales o dudas tienes?</label>
-                        <textarea id="sales-custom-msg" rows="4" placeholder="Ej: Hola, necesito saber si tienen stock de 20 planchas de zinc de 0.35mm y 5 sacos de cemento Melón para retiro hoy en calle Villagrán..." class="w-full text-xs p-4 border border-slate-200 bg-white rounded-xl focus:ring-2 focus:ring-brandOrange focus:outline-none focus:border-brandOrange text-slate-700 placeholder-slate-400 shadow-sm leading-relaxed"></textarea>
+                    <span class="text-[10px] bg-white/20 px-2 py-0.5 rounded font-bold text-white">IA ACTIVA</span>
+                </div>
+                
+                <!-- Chat Log -->
+                <div class="flex-grow p-4 overflow-y-auto custom-scroll space-y-3 text-xs" id="chat-box">
+                    <div class="bg-slate-100 p-3 rounded-xl rounded-tl-none text-slate-700 max-w-[90%] leading-relaxed">
+                        ¡Hola! Soy tu asistente de cotizaciones en Cañete. ¿Qué proyecto tienes en mente? Presiona un acceso rápido o escríbeme abajo lo que necesitas calcular:
                     </div>
-
-                    <!-- Atajos de Mensaje de un clic -->
-                    <div class="space-y-1.5">
-                        <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-2">Mensajes Rápidos Recomendados</span>
-                        <div class="flex flex-wrap gap-2">
-                            <button onclick="document.getElementById('sales-custom-msg').value = 'Hola, necesito cotizar maderas de pino estructural para una ampliación en Cañete. ¿Tienen stock disponible hoy?';" class="text-[11px] font-semibold text-slate-700 bg-white hover:bg-slate-100 border border-slate-200 hover:border-slate-350 py-1.5 px-3 rounded-lg shadow-sm transition-all">🌲 Consulta de Maderas</button>
-                            <button onclick="document.getElementById('sales-custom-msg').value = 'Estimados, quisiera consultar por el precio y stock disponible de Fierro Estructural y mallas para radier en su sucursal de Villagrán.';" class="text-[11px] font-semibold text-slate-700 bg-white hover:bg-slate-100 border border-slate-200 hover:border-slate-350 py-1.5 px-3 rounded-lg shadow-sm transition-all">🏗️ Consulta de Fierros/Cemento</button>
-                            <button onclick="document.getElementById('sales-custom-msg').value = 'Hola, quisiera cotizar herramientas eléctricas Makita o Dewalt que tengan disponibles para terminaciones de baño y cocina.';" class="text-[11px] font-semibold text-slate-700 bg-white hover:bg-slate-100 border border-slate-200 hover:border-slate-350 py-1.5 px-3 rounded-lg shadow-sm transition-all">⚡ Consulta de Herramientas</button>
-                        </div>
+                    <!-- Sugerencias Rápidas -->
+                    <div class="flex flex-col gap-1.5 pt-1" id="quick-options">
+                        <button onclick="solicitarAsistencia('renovar techo')" class="w-full text-left bg-emerald-500/5 hover:bg-emerald-500/10 text-emerald-800 p-2.5 rounded-lg border border-emerald-500/10 font-bold transition-all flex justify-between items-center text-[11px]">
+                            <span>🏠 Renovación de Techo (10x4m)</span>
+                            <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                        </button>
+                        <button onclick="solicitarAsistencia('herramientas electricas')" class="w-full text-left bg-emerald-500/5 hover:bg-emerald-500/10 text-emerald-800 p-2.5 rounded-lg border border-emerald-500/10 font-bold transition-all flex justify-between items-center text-[11px]">
+                            <span>⚡ Taladro Percutor y Accesorios</span>
+                            <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                        </button>
                     </div>
                 </div>
+                <div class="p-3 border-t border-slate-100 bg-slate-50/50 flex gap-2">
+                    <input type="text" id="chat-input" placeholder="Pregunta sobre materiales o medidas..." class="flex-grow bg-white border border-slate-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-italiaGreen" onkeypress="handleChatPress(event)">
+                    <button onclick="enviarMensajeChat()" class="bg-italiaGreen hover:bg-emerald-700 text-white rounded-lg px-4 py-2 text-xs font-bold transition-all shadow-sm">Enviar</button>
+                </div>
+            </div>
 
-                <div class="pt-2">
-                    <button onclick="window.enviarMensajeVendedorDirecto()" class="w-full bg-[#25D366] hover:bg-[#1f9c4d] text-white font-extrabold py-3.5 rounded-xl flex items-center justify-center gap-2.5 transition-all text-xs uppercase tracking-wider shadow-lg shadow-emerald-600/15">
-                        <i class="fa-brands fa-whatsapp text-base"></i> Enviar Mensaje a Vendedor por WhatsApp
+            <!-- Carrito de Cotización -->
+            <div class="bg-white rounded-xl border border-slate-100 shadow-sm overflow-hidden flex flex-col min-h-[300px]">
+                <div class="border-b border-slate-100 px-5 py-4 flex items-center justify-between">
+                    <h3 class="font-display font-bold text-xs text-slate-900 flex items-center gap-2 uppercase tracking-wider">
+                        <i class="fa-solid fa-file-invoice text-italiaRed text-sm"></i> Tu Carro de Cotización
+                    </h3>
+                    <span id="cart-count" class="bg-italiaRed text-white text-[10px] font-bold px-2 py-0.5 rounded-full">0</span>
+                </div>
+                <!-- Lista de Compra -->
+                <div class="flex-grow p-4 overflow-y-auto custom-scroll max-h-[220px] space-y-3" id="cart-list">
+                    <div class="text-center py-8 text-slate-400 flex flex-col items-center justify-center gap-2">
+                        <i class="fa-solid fa-box-open text-2xl text-slate-300"></i>
+                        <p class="text-xs font-medium">No hay productos agregados</p>
+                    </div>
+                </div>
+                <!-- Total y Acción -->
+                <div class="p-4 bg-slate-50 border-t border-slate-100 space-y-3">
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Total Estimado</span>
+                        <span id="cart-total" class="font-display font-extrabold text-lg text-slate-900">$0</span>
+                    </div>
+                    <button onclick="enviarWhatsApp()" class="w-full bg-[#25D366] hover:bg-[#128C7E] text-white text-xs font-bold py-3 rounded-xl transition-all flex items-center justify-center gap-2 shadow-md shadow-emerald-500/10">
+                        <i class="fa-brands fa-whatsapp text-lg"></i> Enviar Cotización a WhatsApp
                     </button>
                 </div>
             </div>
         </section>
-
-        <!-- SECCIÓN: MOSTRARIO DIGITAL DE PRODUCTOS -->
-        <section id="section-catalog" class="space-y-6">
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 border-b border-slate-100 pb-3">
-                <div>
-                    <h3 class="font-display font-extrabold text-2xl tracking-tight text-slate-900 uppercase">Vitrina de Ofertas</h3>
-                    <p class="text-xs text-slate-500 font-medium">CONECTADOS DIRECTAMENTE CON NUESTRO LOCAL</p>
-                </div>
-                
-                <!-- Buscador e interruptor de categorías -->
-                <div class="flex flex-wrap gap-2.5 w-full sm:w-auto">
-                    <div class="relative flex-grow sm:flex-grow-0">
-                        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
-                        <input type="text" id="search-input" oninput="window.buscarProducto()" placeholder="Buscar producto..." class="w-full sm:w-60 pl-9 pr-4 py-2 bg-white text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-brandOrange">
-                    </div>
-                    <div class="flex gap-1.5" id="category-pill-container">
-                        <button id="btn-cat-Todos" onclick="window.filtrarCategoria('Todos')" class="bg-brandOrange text-white text-[10px] font-extrabold px-3 py-1.5 rounded-lg transition-all tracking-wider uppercase shadow-sm">Todos</button>
-                        <button id="btn-cat-Obra-Gruesa" onclick="window.filtrarCategoria('Obra Gruesa')" class="bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-[10px] font-extrabold px-3 py-1.5 rounded-lg transition-all tracking-wider uppercase shadow-sm">Obra Gruesa</button>
-                        <button id="btn-cat-Techumbre" onclick="window.filtrarCategoria('Techumbre')" class="bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-[10px] font-extrabold px-3 py-1.5 rounded-lg transition-all tracking-wider uppercase shadow-sm">Techumbre</button>
-                        <button id="btn-cat-Herramientas" onclick="window.filtrarCategoria('Herramientas')" class="bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-[10px] font-extrabold px-3 py-1.5 rounded-lg transition-all tracking-wider uppercase shadow-sm">Herramientas</button>
-                        <button id="btn-cat-Terminaciones" onclick="window.filtrarCategoria('Terminaciones')" class="bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-[10px] font-extrabold px-3 py-1.5 rounded-lg transition-all tracking-wider uppercase shadow-sm">Terminaciones</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Grid de Catálogo -->
-            <div id="catalog-grid" class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                <!-- Se poblará dinámicamente desde Firebase o Local -->
-            </div>
-        </section>
-
-        <!-- SECCIÓN: VISÍTANOS -->
-        <section id="section-location" class="grid md:grid-cols-2 gap-12 items-center pt-8 border-t border-slate-100">
-            <div class="space-y-6">
-                <div>
-                    <h3 class="font-display font-extrabold text-3xl tracking-tight text-[#0F172A] uppercase">Visítanos</h3>
-                    <p class="text-xs text-slate-500 mt-1 font-medium">Tradición de excelencia y logística en el corazón de la Provincia de Arauco.</p>
-                </div>
-
-                <div class="space-y-4">
-                    <div class="flex items-start gap-4">
-                        <span class="h-9 w-9 rounded-full bg-slate-50 flex items-center justify-center border border-slate-100 shadow-sm shrink-0"><i class="fa-solid fa-map-location-dot text-brandOrange text-xs"></i></span>
-                        <div>
-                            <h4 class="text-xs font-bold text-slate-900">Ubicación Estratégica</h4>
-                            <p class="text-xs text-slate-500 mt-0.5 leading-relaxed font-medium">Villagrán 1080, Cañete.</p>
-                        </div>
-                    </div>
-
-                    <div class="flex items-start gap-4">
-                        <span class="h-9 w-9 rounded-full bg-slate-50 flex items-center justify-center border border-slate-100 shadow-sm shrink-0"><i class="fa-solid fa-clock text-slate-500 text-xs"></i></span>
-                        <div>
-                            <h4 class="text-xs font-bold text-slate-900">Horario de Atención</h4>
-                            <p class="text-xs text-slate-500 mt-0.5 leading-relaxed font-medium">Lun-Vie: 08:30 - 18:30<br>Sábado: 09:00 - 14:00</p>
-                        </div>
-                    </div>
-
-                    <div class="flex items-start gap-4">
-                        <span class="h-9 w-9 rounded-full bg-slate-50 flex items-center justify-center border border-slate-100 shadow-sm shrink-0"><i class="fa-solid fa-phone text-slate-500 text-xs"></i></span>
-                        <div>
-                            <h4 class="text-xs font-bold text-slate-900">Teléfono Directo de Local</h4>
-                            <p class="text-xs text-slate-500 mt-0.5 leading-relaxed font-medium">+56 41 223 4567</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Mapa Conceptual Dark de Cañete -->
-            <div class="relative bg-slate-950 border border-slate-900 rounded-3xl overflow-hidden p-3 h-80 shadow-2xl">
-                <div class="w-full h-full bg-[#1e293b] rounded-2xl flex items-center justify-center relative overflow-hidden">
-                    <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#ffffff_1px,transparent_1px)] bg-[size:16px_16px]"></div>
-                    <div class="absolute w-3/4 h-0.5 bg-slate-700/40 top-1/3 left-0"></div>
-                    <div class="absolute w-1/2 h-0.5 bg-slate-700/40 top-2/3 right-0"></div>
-                    <div class="absolute w-0.5 h-3/4 bg-slate-700/40 left-1/3 top-0"></div>
-                    
-                    <!-- Marcador Pin Principal -->
-                    <div class="relative z-10 text-center">
-                        <div class="inline-flex h-11 w-11 bg-brandOrange text-white rounded-full items-center justify-center text-lg shadow-xl animate-bounce mb-3">
-                            <i class="fa-solid fa-store"></i>
-                        </div>
-                        <h5 class="font-display font-extrabold text-white text-xs tracking-wider uppercase">Calle Villagrán 1080</h5>
-                        <p class="text-[10px] text-slate-400 font-medium mt-0.5">Cañete, Región del Biobío</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-    </div>
-
-    <!-- PESTAÑA SECUNDARIA: CONTROL DE TURNOS DE ATENCIÓN PRESENCIAL -->
-    <section id="section-turns" class="hidden max-w-4xl mx-auto px-4 py-12 w-full space-y-8">
-        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
-            <div class="text-center max-w-xl mx-auto space-y-2">
-                <span class="text-xs font-bold text-brandOrange bg-orange-50 border border-orange-100 py-1 px-3 rounded-full uppercase tracking-wider">Fila Virtual</span>
-                <h3 class="font-display font-extrabold text-2xl text-slate-900">Módulo de Fila Virtual - La Italiana</h3>
-                <p class="text-xs text-slate-500">Regístrate para solicitar atención prioritaria en nuestro mesón de atención en calle Villagrán 1080.</p>
-            </div>
-            <form id="turn-form" onsubmit="window.solicitarTurno(event)" class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
-                <div>
-                    <label class="block font-bold text-slate-500 mb-1">Nombre Completo</label>
-                    <input type="text" id="turn-name" required class="w-full border border-slate-200 rounded-lg px-3 py-2.5 bg-slate-50 focus:ring-2 focus:ring-brandOrange focus:outline-none font-medium">
-                </div>
-                <div>
-                    <label class="block font-bold text-slate-500 mb-1">Contacto o RUT</label>
-                    <input type="text" id="turn-contact" required class="w-full border border-slate-200 rounded-lg px-3 py-2.5 bg-slate-50 focus:ring-2 focus:ring-brandOrange focus:outline-none font-medium">
-                </div>
-                <div>
-                    <label class="block font-bold text-slate-500 mb-1">Área de Consulta</label>
-                    <select id="turn-area" required class="w-full border border-slate-200 bg-slate-50 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-brandOrange focus:outline-none font-medium">
-                        <option>Proyectos / Techado</option>
-                        <option>Mesón Ventas Materiales</option>
-                        <option>Despacho y Logística</option>
-                        <option>Caja y Facturación</option>
-                    </select>
-                </div>
-                <button type="submit" class="sm:col-span-3 bg-brandOrange hover:bg-orange-600 text-white font-bold py-3.5 rounded-xl shadow-md transition-all flex justify-center gap-2 items-center text-xs uppercase tracking-wider"><i class="fa-solid fa-plus"></i> Registrar en la Fila</button>
-            </form>
-        </div>
-        
-        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
-            <h4 class="font-display font-bold text-sm text-slate-900 border-b pb-2"><i class="fa-solid fa-clipboard-list text-italiaRed"></i> Fila Activa en Sucursal</h4>
-            <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse text-xs">
-                    <thead>
-                        <tr class="bg-slate-50 text-slate-400 border-b border-slate-100 font-bold uppercase">
-                            <th class="p-3">Turno</th>
-                            <th class="p-3">Cliente</th>
-                            <th class="p-3">Área de Consulta</th>
-                            <th class="p-3">Estado</th>
-                        </tr>
-                    </thead>
-                    <tbody id="turns-table-body" class="divide-y divide-slate-100"></tbody>
-                </table>
-            </div>
-        </div>
-    </section>
-
-    <!-- PIE DE PÁGINA PREMIUM -->
-    <footer class="bg-[#0B132B] text-slate-400 pt-16 pb-8 px-6 border-t border-slate-900 mt-16">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
-            <!-- Brand -->
-            <div class="space-y-4">
-                <h4 class="font-display font-extrabold text-sm text-white tracking-wider flex items-center gap-1.5 uppercase">
-                    <span class="h-3 w-3 bg-brandOrange rounded-full inline-block"></span> LA ITALIANA
-                </h4>
-                <p class="text-[11px] text-slate-500 leading-relaxed font-medium">
-                    Tradición de excelencia y logística técnica en la Provincia de Arauco. Distribuidor oficial Redmat.
-                </p>
-                <div class="flex gap-3 pt-2">
-                    <a href="#" class="h-8 w-8 rounded-full bg-slate-900 flex items-center justify-center text-slate-500 hover:text-white transition-colors"><i class="fa-brands fa-instagram text-xs"></i></a>
-                    <a href="#" class="h-8 w-8 rounded-full bg-slate-900 flex items-center justify-center text-slate-500 hover:text-white transition-colors"><i class="fa-brands fa-facebook-f text-xs"></i></a>
-                </div>
-            </div>
-
-            <!-- Categories -->
-            <div class="space-y-4 text-xs">
-                <h5 class="text-white font-extrabold tracking-wider uppercase text-[11px]">Categorías</h5>
-                <ul class="space-y-2 font-medium">
-                    <li><a href="#section-catalog" class="hover:text-white transition-colors">Obra Gruesa</a></li>
-                    <li><a href="#section-catalog" class="hover:text-white transition-colors">Techumbre Redmat</a></li>
-                    <li><a href="#section-catalog" class="hover:text-white transition-colors">Maquinaria Eléctrica</a></li>
-                    <li><a href="#section-catalog" class="hover:text-white transition-colors">Terminaciones</a></li>
-                </ul>
-            </div>
-
-            <!-- Corporate -->
-            <div class="space-y-4 text-xs">
-                <h5 class="text-white font-extrabold tracking-wider uppercase text-[11px]">Corporativo</h5>
-                <ul class="space-y-2 font-medium">
-                    <li><a href="#" class="hover:text-white transition-colors">Nuestra Historia</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">Convenios y Empresas</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">Políticas de Devoluciones</a></li>
-                </ul>
-            </div>
-
-            <!-- Suscripción -->
-            <div class="space-y-4 text-xs">
-                <h5 class="text-white font-extrabold tracking-wider uppercase text-[11px]">Suscripción para Maestros</h5>
-                <p class="text-[11px] text-slate-500 font-medium">Reciba catálogos actualizados y ofertas especiales directamente en su correo.</p>
-                <div class="relative flex items-center bg-slate-900 rounded-xl px-3.5 py-1.5 border border-slate-800">
-                    <input type="email" placeholder="Su email..." class="bg-transparent text-xs text-white focus:outline-none w-full placeholder-slate-600">
-                    <button class="bg-brandOrange hover:bg-orange-600 text-white p-2 rounded-lg transition-colors shadow" onclick="window.showToast('¡Gracias por suscribirte!', 'success')"><i class="fa-solid fa-chevron-right text-xs"></i></button>
-                </div>
-            </div>
-        </div>
-
-        <div class="max-w-7xl mx-auto border-t border-slate-900 mt-12 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-[11px] text-slate-500">
-            <p>&copy; 2026 Ferretería La Italiana • Cañete. Todos los derechos reservados.</p>
-            <div class="flex items-center gap-2">
-                <button onclick="window.abrirModalAdmin()" class="hover:text-white transition-all font-mono font-bold flex items-center gap-1.5">
-                    <i class="fa-solid fa-screwdriver-wrench text-brandOrange"></i> Consola Operadora (Mostrario & Sincronización)
-                </button>
-            </div>
-        </div>
-    </footer>
-
-    <!-- SCRIPT DE LOGICA DE SISTEMA DE ALTA FIDELIDAD Y CONTROL DIRECTO -->
-    <script>
-        // Catálogo fallback por defecto si no hay conexión a Firebase aún
-        const CATALOGO_INICIAL_DISENO = [
-            { id: "1", name: "Cemento Melón Especial 25kg", price: 6500, price_offer: 5490, category: "Obra Gruesa", stock: 120, badge: "OFERTA", image: "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=400&q=80", unit: "saco" },
-            { id: "2", name: "Fierro Estructural 8mm", price: 5900, price_offer: 5200, category: "Obra Gruesa", stock: 450, badge: "MÁS VENDIDO", image: "https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&fit=crop&w=400&q=80", unit: "tira" },
-            { id: "3", name: "Taladro Percutor Makita 18V", price: 109990, price_offer: 89990, category: "Herramientas", stock: 15, badge: "PROFESIONAL", image: "https://images.unsplash.com/photo-1504148455328-c376907d081c?auto=format&fit=crop&w=400&q=80", unit: "unidad" },
-            { id: "4", name: "Esmalte al Agua 1 Gal", price: 29900, price_offer: 24900, category: "Terminaciones", stock: 80, badge: "INTERIOR", image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=400&q=80", unit: "galón" },
-            { id: "5", name: "Plancha de Zinc 0.35mm", price: 14500, price_offer: 12500, category: "Techumbre", stock: 300, badge: "OFERTA", image: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=400&q=80", unit: "plancha" }
-        ];
-
-        // Estado local de la aplicación
-        window.localState = {
-            products: [...CATALOGO_INICIAL_DISENO],
-            turns: [
-                { id: "t1", nombre: "Juan Pérez", contacto: "987654321", area: "Mesón Ventas Materiales", estado: "Esperando", numero: "105" },
-                { id: "t2", nombre: "María Contreras", contacto: "912345678", area: "Proyectos / Techado", estado: "En Atención", numero: "106" }
-            ],
-            category: 'Todos'
-        };
-
-        window.firebaseDB = null;
-        window.appId = 'ferreteria-italiana-canete';
-
-        // Carga de productos desde memoria localStorage para no perder los productos que suba el usuario localmente si no conecta Firebase
-        try {
-            const savedLocal = localStorage.getItem("la_italiana_local_products_maestro");
-            if (savedLocal) {
-                window.localState.products = JSON.parse(savedLocal);
-            }
-        } catch(e) {}
-
-        // Notificaciones Premium de la Aplicación
-        window.showToast = function(msg, type="success") {
-            const container = document.getElementById("toast-container");
-            if (!container) return;
-            const div = document.createElement("div");
-            const isError = type === 'error';
-            const isInfo = type === 'info';
-            
-            let borderClass = 'border-brandOrange';
-            let iconHtml = '<i class="fa-solid fa-circle-check text-brandOrange"></i>';
-            if (isError) {
-                borderClass = 'border-red-500';
-                iconHtml = '<i class="fa-solid fa-triangle-exclamation text-red-500"></i>';
-            } else if (isInfo) {
-                borderClass = 'border-blue-500';
-                iconHtml = '<i class="fa-solid fa-info text-blue-500"></i>';
-            }
-
-            div.className = `flex items-center gap-3 p-4 rounded-2xl shadow-xl border-l-4 bg-white ${borderClass} pointer-events-auto transition-all duration-300 transform translate-y-2`;
-            div.innerHTML = `${iconHtml}
-                <div class="flex-grow"><p class="text-xs font-bold text-slate-800">${msg}</p></div>
-                <button onclick="this.parentElement.remove()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark"></i></button>`;
-            container.appendChild(div);
-            
-            setTimeout(() => div.classList.remove("translate-y-2"), 10);
-            setTimeout(() => div.remove(), 4000);
-        };
-
-        // Control de Pestañas Principales (Catálogo / Turnos)
-        window.switchMainTab = function(tab) {
-            const isCat = tab === 'catalogo';
-            
-            // Ocultar o mostrar secciones
-            document.getElementById("hero-cover").style.display = isCat ? 'block' : 'none';
-            document.getElementById("section-catalog").style.display = isCat ? 'block' : 'none';
-            document.getElementById("section-contact-vendedor").style.display = isCat ? 'grid' : 'none';
-            document.getElementById("section-location").style.display = isCat ? 'grid' : 'none';
-            document.getElementById("section-turns").style.display = !isCat ? 'block' : 'none';
-            
-            if (!isCat) {
-                window.scrollTo({ top: document.getElementById("section-turns").offsetTop - 100, behavior: 'smooth' });
-            }
-        };
-
-        // Modales y Controles Admin
-        window.abrirModalAdmin = () => document.getElementById("login-modal").classList.remove("hidden");
-        window.cerrarModalAdmin = () => { document.getElementById("login-modal").classList.add("hidden"); document.getElementById("admin-pass").value = ""; };
-        window.verificarAdmin = () => {
-            const p = document.getElementById("admin-pass").value;
-            if (p === "admin" || p === "italiana2026") {
-                window.cerrarModalAdmin();
-                document.getElementById("admin-panel").classList.remove("hidden"); 
-                document.getElementById("admin-panel").classList.add("flex");
-                window.renderTables();
-            } else {
-                window.showToast("Clave de Administrador Incorrecta", "error");
-            }
-        };
-        window.cerrarPanelAdmin = () => { document.getElementById("admin-panel").classList.add("hidden"); document.getElementById("admin-panel").classList.remove("flex"); };
-        
-        window.abrirConfirmModal = (cb) => { document.getElementById("confirm-modal").classList.remove("hidden"); document.getElementById("confirm-btn-action").onclick = () => { cb(); window.cerrarConfirmModal(); }; };
-        window.cerrarConfirmModal = () => document.getElementById("confirm-modal").classList.add("hidden");
-
-        // Ampliar fotos de productos
-        window.abrirModalImagen = function(src, title) {
-            const modal = document.getElementById("image-modal");
-            const img = document.getElementById("modal-img-target");
-            const titleEl = document.getElementById("modal-img-title");
-            if (!modal || !img || !titleEl) return;
-            img.src = src;
-            titleEl.innerText = title;
-            modal.classList.remove("hidden");
-            setTimeout(() => modal.classList.remove("opacity-0"), 10);
-        };
-
-        window.cerrarModalImagen = function() {
-            const modal = document.getElementById("image-modal");
-            if (!modal) return;
-            modal.classList.add("opacity-0");
-            setTimeout(() => modal.classList.add("hidden"), 300);
-        };
-
-        // Consultar oferta de producto individual por WhatsApp
-        window.consultarProductoWhatsApp = function(id) {
-            const p = window.localState.products.find(x => x.id === id);
-            if (!p) return;
-            const precioTexto = p.price_offer ? `en OFERTA a $${p.price_offer.toLocaleString('es-CL')}` : `a $${p.price.toLocaleString('es-CL')}`;
-            const text = `¡Hola! Me interesa consultar el stock y disponibilidad de este producto en su sucursal de Cañete:\n\n• *${p.name}* (${precioTexto})\n\nPor favor, confírmenme si tienen retiro inmediato o despacho disponible. ¡Muchas gracias!`;
-            window.open(`https://wa.me/56912345678?text=${encodeURIComponent(text)}`, "_blank");
-        };
-
-        // Renderizado Dinámico del Mostrario de Productos
-        window.renderCatalog = function(search = "") {
-            const grid = document.getElementById("catalog-grid");
-            if(!grid) return;
-            const filtered = window.localState.products.filter(p => (window.localState.category === "Todos" || p.category === window.localState.category) && p.name.toLowerCase().includes(search.toLowerCase()));
-            
-            if(filtered.length === 0) { 
-                grid.innerHTML = `<div class="col-span-full p-12 text-center bg-white border border-slate-200 rounded-2xl text-slate-500 font-medium shadow-sm">No hay productos en esta categoría hoy.</div>`; 
-                return; 
-            }
-            
-            grid.innerHTML = filtered.map(p => {
-                const badgeText = p.badge || (p.price_offer ? 'OFERTA' : 'NUEVO');
-                const badgeColor = badgeText === 'OFERTA' ? 'bg-[#FF5A1F] text-white' : 
-                                   badgeText === 'MÁS VENDIDO' ? 'bg-[#E1251B] text-white' : 
-                                   badgeText === 'PROFESIONAL' ? 'bg-[#0B132B] text-white' : 'bg-emerald-600 text-white';
-                                   
-                const hasOffer = p.price_offer && p.price_offer < p.price;
-                const priceHtml = hasOffer ? `
-                    <div class="flex flex-col">
-                        <span class="text-[11px] text-slate-400 line-through font-bold leading-none">$${p.price.toLocaleString('es-CL')}</span>
-                        <span class="font-display font-extrabold text-[#E1251B] text-base leading-tight mt-0.5">$${p.price_offer.toLocaleString('es-CL')} <span class="text-[10px] text-slate-400 font-bold">/${p.unit || 'un'}</span></span>
-                    </div>
-                ` : `
-                    <span class="font-display font-extrabold text-brandOrange text-base">$${p.price.toLocaleString('es-CL')} <span class="text-[10px] text-slate-400 font-bold">/${p.unit || 'un'}</span></span>
-                `;
-
-                return `
-                <div class="bg-white rounded-2xl border border-slate-200/70 overflow-hidden flex flex-col justify-between hover:shadow-xl hover:border-slate-300 transition-all group duration-300 relative shadow-sm">
-                    <span class="absolute top-3 left-3 ${badgeColor} text-[9px] font-extrabold px-2 py-1 rounded-md z-10 shadow-sm uppercase tracking-wider">${badgeText}</span>
-                    
-                    <div class="h-44 w-full bg-slate-50 flex items-center justify-center p-4 cursor-zoom-in relative" onclick="window.abrirModalImagen('${p.image || 'https://placehold.co/400'}', '${p.name.replace(/'/g, "\\'")}')">
-                        <img src="${p.image || 'https://placehold.co/400'}" class="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-105" onerror="this.onerror=null; this.src='https://placehold.co/400?text=La+Italiana'">
-                    </div>
-
-                    <div class="p-4 space-y-2 flex-grow flex flex-col justify-between">
-                        <div class="space-y-1">
-                            <span class="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest block">${p.category}</span>
-                            <h4 class="font-extrabold text-xs sm:text-sm text-slate-900 line-clamp-2 leading-snug min-h-[2.5rem]">${p.name}</h4>
-                        </div>
-                        
-                        <div class="pt-2 border-t border-slate-100 flex items-center justify-between">
-                            ${priceHtml}
-                        </div>
-                    </div>
-                    
-                    <div class="p-4 pt-0">
-                        <button onclick="window.consultarProductoWhatsApp('${p.id}')" class="w-full bg-[#25D366] hover:bg-[#1f9c4d] text-white font-extrabold py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition-all text-[11px] uppercase tracking-wider shadow-md shadow-emerald-600/10">
-                            <i class="fa-brands fa-whatsapp text-sm"></i> Preguntar Stock
-                        </button>
-                    </div>
-                </div>
-            `}).join('');
-        };
-
-        // Renderizado del Panel Operadora
-        window.renderTables = function() {
-            const tBody = document.getElementById("admin-table-body");
-            if(tBody) {
-                document.getElementById("admin-total-count").innerText = window.localState.products.length;
-                tBody.innerHTML = window.localState.products.map(p => `
-                    <tr class="border-b text-xs">
-                        <td class="p-3 font-bold text-slate-800">${p.name}</td>
-                        <td class="p-3 uppercase text-slate-500">${p.category}</td>
-                        <td class="p-3 text-brandOrange font-bold">$${(p.price_offer || p.price).toLocaleString('es-CL')}</td>
-                        <td class="p-3 text-center space-x-1.5">
-                            <button onclick="window.cargarProductoParaEditar('${p.id}')" class="text-amber-500 hover:bg-amber-50 p-2 rounded-xl transition-all" title="Editar"><i class="fa-solid fa-pen-to-square"></i></button>
-                            <button onclick="window.eliminarProducto('${p.id}')" class="text-red-500 hover:bg-red-50 p-2 rounded-xl transition-all" title="Eliminar"><i class="fa-solid fa-trash-can"></i></button>
-                        </td>
-                    </tr>
-                `).join('');
-            }
-            const tTurns = document.getElementById("turns-table-body");
-            if(tTurns) {
-                tTurns.innerHTML = window.localState.turns.length === 0 ? `<tr><td colspan="4" class="p-6 text-center text-slate-400">Sin turnos activos en fila</td></tr>` : window.localState.turns.map(t => `<tr class="border-b"><td class="p-3 font-mono font-bold text-slate-900">#${t.numero}</td><td class="p-3 font-semibold text-slate-700">${t.nombre}</td><td class="p-3 text-slate-500">${t.area}</td><td class="p-3"><span class="${t.state === 'Esperando' || t.estado === 'Esperando' ? 'bg-amber-100 text-amber-700 border border-amber-200' : 'bg-emerald-100 text-emerald-700 border border-emerald-200'} px-2.5 py-1 rounded-full text-[10px] font-bold uppercase">${t.estado || t.state || 'Esperando'}</span></td></tr>`).join('');
-            }
-            const tAdTurns = document.getElementById("admin-turns-body");
-            if(tAdTurns) {
-                document.getElementById("admin-waiting-count").innerText = window.localState.turns.filter(t=>(t.estado||t.state)==='Esperando').length;
-                tAdTurns.innerHTML = window.localState.turns.map(t => `<tr class="border-b"><td class="p-3 font-bold">${t.nombre}</td><td class="p-3 text-slate-500">${t.area}</td><td class="p-3 text-center">${(t.estado||t.state) === 'Esperando' ? `<button onclick="window.atenderTurno('${t.id}')" class="bg-emerald-600 text-white px-2.5 py-1 rounded-lg text-xs font-bold shadow-sm">Atender</button>` : `<button onclick="window.finalizarTurno('${t.id}')" class="bg-slate-950 text-white px-2.5 py-1 rounded-lg text-xs font-bold shadow-sm">Cerrar</button>`}</td></tr>`).join('');
-            }
-        };
-
-        // Cargar datos de producto en formulario para edición
-        window.cargarProductoParaEditar = function(id) {
-            const p = window.localState.products.find(x => x.id === id);
-            if (!p) return;
-            
-            document.getElementById("editing-id").value = p.id;
-            document.getElementById("p-name").value = p.name;
-            document.getElementById("p-price").value = p.price;
-            document.getElementById("p-price-offer").value = p.price_offer || "";
-            document.getElementById("p-stock").value = p.stock || 0;
-            document.getElementById("p-badge").value = p.badge || "";
-            document.getElementById("p-category").value = p.category;
-            document.getElementById("p-unit").value = p.unit || "unidad";
-            document.getElementById("p-image").value = p.image || "";
-            
-            document.getElementById("form-title").innerHTML = `<i class="fa-solid fa-pen-to-square text-amber-500"></i> Editar Producto`;
-            document.getElementById("btn-submit-form").innerText = "Actualizar Producto";
-            document.getElementById("btn-cancel-edit").classList.remove("hidden");
-            
-            // Auto scroll suave hacia el formulario de edición en el panel
-            document.getElementById("product-form").scrollIntoView({ behavior: 'smooth' });
-            window.showToast("Cargando producto en el formulario para editar", "info");
-        };
-
-        // Cancelar modo de edición
-        window.cancelarEdicion = function() {
-            document.getElementById("editing-id").value = "";
-            document.getElementById("product-form").reset();
-            document.getElementById("form-title").innerHTML = `<i class="fa-solid fa-box text-italiaGreen"></i> Agregar Producto al Mostrario`;
-            document.getElementById("btn-submit-form").innerText = "Guardar y Sincronizar";
-            document.getElementById("btn-cancel-edit").classList.add("hidden");
-        };
-
-        // Filtro por Categorías
-        window.filtrarCategoria = (cat) => { 
-            window.localState.category = cat;
-            
-            // Actualizar botones de filtro
-            const cats = ['Todos', 'Obra Gruesa', 'Techumbre', 'Herramientas', 'Terminaciones'];
-            cats.forEach(c => {
-                const btnId = `btn-cat-${c.replace(' ', '-')}`;
-                const btn = document.getElementById(btnId);
-                if (btn) {
-                    if (c === cat) {
-                        btn.className = "bg-brandOrange text-white text-[10px] font-extrabold px-3 py-1.5 rounded-lg transition-all tracking-wider uppercase shadow-sm";
-                    } else {
-                        btn.className = "bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-[10px] font-extrabold px-3 py-1.5 rounded-lg transition-all tracking-wider uppercase shadow-sm";
-                    }
-                }
-            });
-
-            window.renderCatalog(); 
-            window.showToast("Categoría: " + cat, "info");
-        };
-
-        window.buscarProducto = () => {
-            const query = document.getElementById("search-input").value;
-            window.renderCatalog(query);
-        };
-
-        // Mandar el mensaje personalizado del formulario directo al WhatsApp de un vendedor real
-        window.enviarMensajeVendedorDirecto = () => {
-            const msg = document.getElementById("sales-custom-msg").value.trim();
-            if(!msg) return window.showToast("Por favor, redacte su mensaje o seleccione un atajo.", "error");
-            
-            let text = `*CONSULTA DIRECTA SUCURSAL CAÑETE*\n\n`;
-            text += `"${msg}"\n\n`;
-            text += `_Por favor, confírmeme lo antes posible para programar._`;
-            
-            window.open(`https://wa.me/56912345678?text=${encodeURIComponent(text)}`, "_blank");
-        };
-
-        // Parsear y Conectar Firebase Seguro
-        window.parseFirebaseConfigInteligente = function(texto) {
-            if (!texto || texto.trim() === '') return null;
-            try { return JSON.parse(texto); } catch (e1) {}
-            try {
-                const match = texto.match(/({[\s\S]*apiKey[\s\S]*})/);
-                if (match && match[0]) return new Function("return " + match[0])();
-            } catch (e2) {}
-            throw new Error("No se pudo leer la configuración de Firebase.");
-        };
-
-        window.initFirebaseSafe = async function() {
-            let configRaw = localStorage.getItem("la_italiana_firebase_config");
-            let isCustomConfig = !!configRaw;
-
-            if (!configRaw) {
-                document.getElementById("db-status-text").innerText = "Modo Local Seguro (Pega Firebase en Admin)";
-                document.getElementById("cloud-pulse").className = "inline-flex h-2.5 w-2.5 rounded-full bg-amber-500";
-                return;
-            }
-
-            try {
-                document.getElementById("admin-firebase-config").value = configRaw;
-                const configObj = window.parseFirebaseConfigInteligente(configRaw);
-                if (!configObj || !configObj.apiKey) throw new Error("Falta apiKey");
-
-                document.getElementById("db-status-text").innerText = "Conectando a Firebase...";
-
-                if (!firebase.apps.length) {
-                    firebase.initializeApp(configObj);
-                }
-                
-                window.firebaseDB = firebase.firestore();
-
-                await firebase.auth().signInAnonymously();
-
-                firebase.auth().onAuthStateChanged((user) => {
-                    if (user) {
-                        document.getElementById("db-status-text").innerText = "Nube Firebase Sincronizada";
-                        document.getElementById("cloud-pulse").className = "inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500";
-                        
-                        // Escuchar productos de Firebase Firestore en tiempo real
-                        window.firebaseDB.collection(`artifacts/${window.appId}/public/data/productos`).onSnapshot(snap => {
-                            let items = []; snap.forEach(d => items.push({ id: d.id, ...d.data() }));
-                            
-                            if (items.length > 0) { 
-                                window.localState.products = items; 
-                                window.renderCatalog(); 
-                                window.renderTables(); 
-                            } else {
-                                // Subir iniciales por defecto a Firebase para facilitar la partida
-                                window.localState.products.forEach(p => {
-                                    window.firebaseDB.collection(`artifacts/${window.appId}/public/data/productos`).doc(p.id).set(p);
-                                });
-                            }
-                        }, error => {
-                            console.error("Firebase Rule Error:", error);
-                            window.showToast("Error de permisos de escritura/lectura en Firebase", "error");
-                        });
-
-                        // Escuchar turnos de Fila Virtual de Firebase
-                        window.firebaseDB.collection(`artifacts/${window.appId}/public/data/turnos`).onSnapshot(snap => {
-                            let items = []; snap.forEach(d => items.push({ id: d.id, ...d.data() }));
-                            items.sort((a,b) => (a.timestamp?.seconds||0) - (b.timestamp?.seconds||0));
-                            window.localState.turns = items; 
-                            window.renderTables();
-                        }, error => console.error("Error Turnos:", error));
-                    }
-                });
-
-            } catch (err) {
-                console.error("Error Firebase Config:", err);
-                document.getElementById("db-status-text").innerText = "Error de Configuración Firebase";
-                document.getElementById("cloud-pulse").className = "inline-flex h-2.5 w-2.5 rounded-full bg-red-500";
-            }
-        };
-
-        window.guardarFirebaseConfig = function() {
-            const raw = document.getElementById("admin-firebase-config").value.trim();
-            if(!raw) { 
-                localStorage.removeItem("la_italiana_firebase_config"); 
-                window.showToast("Configuración borrada. Volviendo a modo local.");
-                setTimeout(() => location.reload(), 1000); 
-                return; 
-            }
-            try {
-                const obj = window.parseFirebaseConfigInteligente(raw);
-                if(obj && obj.apiKey) {
-                    localStorage.setItem("la_italiana_firebase_config", JSON.stringify(obj, null, 2));
-                    window.showToast("Configuración enlazada. Sincronizando...", "success");
-                    setTimeout(() => location.reload(), 1500);
-                } else throw new Error("Falta API Key");
-            } catch(e) { 
-                window.showToast("Código inválido de Firebase. Revísalo.", "error"); 
-            }
-        };
-
-        // Guardar o Editar material en la nube (o localmente si no hay Firebase)
-        window.guardarProductoSubmit = async function(e) {
-            e.preventDefault();
-            const id = document.getElementById("editing-id").value;
-            const priceOfferInput = document.getElementById("p-price-offer").value;
-            
-            const data = {
-                name: document.getElementById("p-name").value.trim(), 
-                price: parseInt(document.getElementById("p-price").value),
-                price_offer: priceOfferInput ? parseInt(priceOfferInput) : null,
-                stock: parseInt(document.getElementById("p-stock").value), 
-                category: document.getElementById("p-category").value, 
-                image: document.getElementById("p-image").value.trim() || "https://placehold.co/400x300/f8fafc/334155?text=La+Italiana",
-                unit: document.getElementById("p-unit").value,
-                badge: document.getElementById("p-badge").value.trim() || null
-            };
-
-            if (id) {
-                // Modo Edición
-                if (window.firebaseDB) {
-                    try {
-                        await window.firebaseDB.collection(`artifacts/${window.appId}/public/data/productos`).doc(id).set(data, { merge: true });
-                        window.showToast("¡Material actualizado en Firebase!", "success");
-                    } catch(err) {
-                        window.showToast("Error de permisos al actualizar en Firebase", "error");
-                    }
-                } else {
-                    const idx = window.localState.products.findIndex(x => x.id === id);
-                    if (idx !== -1) {
-                        window.localState.products[idx] = { ...window.localState.products[idx], ...data };
-                        localStorage.setItem("la_italiana_local_products_maestro", JSON.stringify(window.localState.products));
-                        window.renderCatalog(); 
-                        window.renderTables();
-                        window.showToast("Material actualizado localmente con éxito", "success");
-                    }
-                }
-                window.cancelarEdicion();
-            } else {
-                // Modo Creación
-                if (window.firebaseDB) {
-                    try {
-                        const docId = String(Date.now());
-                        await window.firebaseDB.collection(`artifacts/${window.appId}/public/data/productos`).doc(docId).set(data);
-                        window.showToast("¡Material publicado en Firebase para todo Cañete!", "success");
-                    } catch(err) {
-                        window.showToast("Error de permisos al escribir en Firebase", "error");
-                    }
-                } else {
-                    data.id = String(Date.now());
-                    window.localState.products.push(data);
-                    localStorage.setItem("la_italiana_local_products_maestro", JSON.stringify(window.localState.products));
-                    window.renderCatalog(); 
-                    window.renderTables();
-                    window.showToast("Material guardado localmente", "success");
-                }
-                document.getElementById("product-form").reset();
-            }
-        };
-
-        // Eliminar producto
-        window.eliminarProducto = async function(id) {
-            window.abrirConfirmModal(async () => {
-                if(window.firebaseDB) {
-                    try {
-                        await window.firebaseDB.collection(`artifacts/${window.appId}/public/data/productos`).doc(id).delete();
-                        window.showToast("Material removido de la nube", "info");
-                    } catch(err) {
-                        window.showToast("Error al remover de Firebase", "error");
-                    }
-                } else {
-                    window.localState.products = window.localState.products.filter(p=>p.id!==id);
-                    localStorage.setItem("la_italiana_local_products_maestro", JSON.stringify(window.localState.products));
-                    window.renderCatalog(); 
-                    window.renderTables();
-                    window.showToast("Material eliminado localmente", "info");
-                }
-            });
-        };
-
-        // Turnos de atención presencial
-        window.solicitarTurno = async function(e) {
-            e.preventDefault();
-            const data = {
-                nombre: document.getElementById("turn-name").value.trim(), 
-                contacto: document.getElementById("turn-contact").value.trim(),
-                area: document.getElementById("turn-area").value, 
-                estado: "Esperando", 
-                numero: String(Math.floor(Math.random()*100) + 100),
-                timestamp: window.firebaseDB ? firebase.firestore.FieldValue.serverTimestamp() : { seconds: Math.floor(Date.now()/1000) }
-            };
-
-            if (window.firebaseDB) {
-                try {
-                    const docId = String(Date.now());
-                    await window.firebaseDB.collection(`artifacts/${window.appId}/public/data/turnos`).doc(docId).set(data);
-                    window.showToast("¡Te has registrado en la fila virtual!", "success");
-                } catch(err) {
-                    window.showToast("Error al registrar turno en la nube", "error");
-                }
-            } else {
-                data.id = String(Date.now());
-                window.localState.turns.push(data); 
-                window.renderTables();
-                window.showToast("Turno generado localmente con éxito!", "success");
-            }
-            document.getElementById("turn-form").reset(); 
-        };
-
-        window.atenderTurno = async function(id) {
-            if (window.firebaseDB) {
-                await window.firebaseDB.collection(`artifacts/${window.appId}/public/data/turnos`).doc(id).update({ estado: 'En Atención' });
-            } else {
-                const turn = window.localState.turns.find(t=>t.id===id);
-                if (turn) {
-                    turn.estado = "En Atención";
-                    window.renderTables();
-                    window.showToast("Atendiendo a " + turn.nombre, "info");
-                }
-            }
-        };
-
-        window.finalizarTurno = async function(id) {
-            if (window.firebaseDB) {
-                await window.firebaseDB.collection(`artifacts/${window.appId}/public/data/turnos`).doc(id).delete();
-            } else {
-                window.localState.turns = window.localState.turns.filter(t=>t.id!==id); 
-                window.renderTables();
-                window.showToast("Turno finalizado", "success");
-            }
-        };
-
-        // Inicialización del sistema
-        window.renderCatalog();
-        window.renderTables();
-        setTimeout(window.initFirebaseSafe, 400);
-    </script>
-
-    <!-- MODAL DE VISUALIZACIÓN DE IMAGEN EN PANTALLA COMPLETA -->
-    <div id="image-modal" class="fixed inset-0 bg-black/80 z-[100] flex items-center justify-center hidden opacity-0 transition-opacity duration-300" onclick="window.cerrarModalImagen()">
-        <div class="relative max-w-4xl w-full mx-4 p-3 bg-white rounded-2xl overflow-hidden shadow-2xl flex flex-col items-center" onclick="event.stopPropagation()">
-            <button onclick="window.cerrarModalImagen()" class="absolute top-4 right-4 bg-slate-900 hover:bg-black text-white w-8 h-8 rounded-full flex items-center justify-center transition-all z-10 shadow-md">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-            <div class="w-full flex items-center justify-center bg-slate-50 rounded-xl overflow-hidden">
-                <img id="modal-img-target" src="" class="max-h-[70vh] max-w-full object-contain">
-            </div>
-            <p id="modal-img-title" class="text-xs sm:text-sm font-bold text-slate-800 mt-3 px-4 text-center"></p>
-        </div>
-    </div>
+    </main>
 
     <!-- MODAL DE CONFIRMACIÓN DE ELIMINACIÓN -->
-    <div id="confirm-modal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center hidden">
-        <div class="bg-white rounded-2xl w-80 p-6 text-center shadow-2xl mx-4">
-            <i class="fa-solid fa-circle-exclamation text-amber-500 text-4xl mb-3"></i>
-            <h3 class="font-bold text-slate-900 mb-4">¿Estás seguro?</h3>
-            <div class="flex gap-2">
-                <button onclick="window.cerrarConfirmModal()" class="flex-1 border text-slate-600 py-2 rounded-lg text-xs font-bold">Cancelar</button>
-                <button id="confirm-btn-action" class="flex-1 bg-italiaRed text-white py-2 rounded-lg text-xs font-bold">Eliminar</button>
+    <div id="confirm-modal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-slate-100 mx-4 transform scale-95 transition-transform duration-300">
+            <div class="text-center space-y-3">
+                <div class="w-12 h-12 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center mx-auto text-xl">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+                <h3 class="font-display font-bold text-base text-slate-900">¿Estás seguro de eliminar?</h3>
+                <p id="confirm-message" class="text-xs text-slate-500">¿Deseas quitar este producto de la base de datos de tu local?</p>
+            </div>
+            <div class="mt-5 flex gap-2">
+                <button onclick="cerrarConfirmModal()" class="flex-1 border border-slate-200 text-slate-600 hover:bg-slate-50 py-2.5 rounded-lg text-xs font-bold transition-all">Cancelar</button>
+                <button id="confirm-btn-action" class="flex-1 bg-italiaRed hover:bg-red-700 text-white py-2.5 rounded-lg text-xs font-bold transition-all">Eliminar</button>
             </div>
         </div>
     </div>
 
     <!-- MODAL DE ACCESO ADMIN -->
-    <div id="login-modal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center hidden">
-        <div class="bg-white rounded-2xl w-80 p-6 text-center shadow-2xl mx-4">
-            <div class="w-12 h-12 rounded-full bg-red-50 text-italiaRed flex items-center justify-center mx-auto text-xl mb-3"><i class="fa-solid fa-shield-halved"></i></div>
-            <h3 class="font-bold text-slate-900 mb-4">Acceso Administrativo</h3>
-            <p class="text-[10px] text-slate-500 mb-4">Usa la contraseña <code>admin</code> para ingresar.</p>
-            <input type="password" id="admin-pass" placeholder="Contraseña..." class="w-full border rounded-lg px-3 py-2.5 text-xs mb-4 focus:ring-2 focus:ring-italiaRed focus:outline-none">
-            <div class="flex gap-2">
-                <button onclick="window.cerrarModalAdmin()" class="flex-1 border text-slate-600 py-2 rounded-lg text-xs font-bold">Cancelar</button>
-                <button onclick="window.verificarAdmin()" class="flex-1 bg-italiaRed text-white py-2 rounded-lg text-xs font-bold">Ingresar</button>
+    <div id="login-modal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-slate-100 mx-4 transform scale-95 transition-transform duration-300">
+            <div class="text-center space-y-3">
+                <div class="w-12 h-12 rounded-full bg-red-50 text-italiaRed flex items-center justify-center mx-auto text-xl">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <h3 class="font-display font-bold text-base text-slate-900">Acceso Administrativo</h3>
+                <p class="text-xs text-slate-500 font-medium">Introduce la contraseña de acceso rápido de Cañete.</p>
+            </div>
+            <div class="mt-5 space-y-4">
+                <div>
+                    <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">Clave de Acceso</label>
+                    <input type="password" id="admin-pass" placeholder="Ingresa la contraseña (admin)..." class="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-italiaRed">
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="cerrarModalAdmin()" class="flex-1 border border-slate-200 text-slate-600 hover:bg-slate-50 py-2.5 rounded-lg text-xs font-bold transition-all">Cancelar</button>
+                    <button onclick="verificarAdmin()" class="flex-1 bg-italiaRed hover:bg-red-700 text-white py-2.5 rounded-lg text-xs font-bold transition-all">Ingresar</button>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- PANEL ADMINISTRATIVO PRINCIPAL -->
-    <div id="admin-panel" class="fixed inset-0 bg-slate-50 z-50 overflow-y-auto hidden flex-col font-sans">
-        <header class="bg-[#0B132B] text-white py-4 px-6 flex justify-between items-center shadow-md">
-            <h2 class="font-display font-extrabold text-base"><i class="fa-solid fa-gear text-brandOrange"></i> Consola Operadora de Inventario</h2>
-            <button onclick="window.cerrarPanelAdmin()" class="bg-brandOrange text-white text-xs font-bold px-4 py-2 rounded-xl">Cerrar y Ver Web</button>
+    <!-- PANELES DE CONTROL ADMINISTRATIVO (VISTA COMPLETA) -->
+    <div id="admin-panel" class="fixed inset-0 bg-slate-50 z-50 overflow-y-auto hidden flex-col">
+        <header class="bg-slate-900 text-white py-4.5 px-6 sticky top-0 flex justify-between items-center shadow-md">
+            <div class="flex items-center gap-3">
+                <span class="text-[10px] bg-italiaRed text-white font-extrabold px-2.5 py-1 rounded-full uppercase tracking-wider">Modo Gestor</span>
+                <h2 class="font-display font-extrabold text-base">Consola de Inventario — Ferretería La Italiana</h2>
+            </div>
+            <button onclick="cerrarPanelAdmin()" class="bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition-all flex items-center gap-2">
+                <i class="fa-solid fa-right-from-bracket"></i> Salir del Panel
+            </button>
         </header>
-        <div class="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-3 gap-6 w-full">
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-1 lg:grid-cols-3 gap-8 w-full">
+            <!-- COLUMNA IZQUIERDA: FORMULARIOS -->
             <div class="space-y-6">
-                <!-- Tarjeta: Guardar / Editar Material -->
-                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-                    <h3 class="font-bold text-sm border-b pb-2 mb-4 text-slate-900" id="form-title">
-                        <i class="fa-solid fa-box text-italiaGreen"></i> Agregar Producto al Mostrario
+                <!-- FORMULARIO: AGREGAR NUEVO PRODUCTO -->
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-5 h-fit">
+                    <h3 class="font-display font-bold text-sm text-slate-900 border-b pb-2 flex items-center gap-2 uppercase tracking-wider">
+                        <i class="fa-solid fa-plus-minus text-italiaGreen"></i> Agregar Nuevo Insumo
                     </h3>
-                    <form id="product-form" onsubmit="window.guardarProductoSubmit(event)" class="space-y-3 text-xs">
-                        <input type="hidden" id="editing-id">
+                    <form id="product-form" onsubmit="guardarNuevoProducto(event)" class="space-y-4 text-xs">
                         <div>
-                            <label class="block font-bold text-slate-500 mb-1">Nombre del Producto</label>
-                            <input type="text" id="p-name" required placeholder="Nombre del Producto" class="w-full border p-2.5 rounded-lg bg-slate-50 focus:ring-2 focus:ring-italiaGreen focus:outline-none">
+                            <label class="block font-bold text-slate-500 mb-1">Nombre del Material</label>
+                            <input type="text" id="p-name" required placeholder="Ej: Plancha de Zinc Ondulada" class="w-full border border-slate-200 rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-italiaGreen bg-slate-50">
                         </div>
                         <div class="grid grid-cols-2 gap-3">
                             <div>
-                                <label class="block font-bold text-slate-500 mb-1">Precio Normal ($)</label>
-                                <input type="number" id="p-price" required placeholder="Normal" class="border p-2.5 rounded-lg bg-slate-50 focus:ring-2 focus:ring-italiaGreen focus:outline-none w-full">
+                                <label class="block font-bold text-slate-500 mb-1">Precio ($ CLP)</label>
+                                <input type="number" id="p-price" required placeholder="Ej: 12500" class="w-full border border-slate-200 rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-italiaGreen bg-slate-50">
                             </div>
                             <div>
-                                <label class="block font-bold text-slate-500 mb-1">Precio Oferta ($ - Opcional)</label>
-                                <input type="number" id="p-price-offer" placeholder="Oferta" class="border p-2.5 rounded-lg bg-slate-50 focus:ring-2 focus:ring-italiaGreen focus:outline-none w-full">
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-2 gap-3">
-                            <div>
-                                <label class="block font-bold text-slate-500 mb-1">Stock</label>
-                                <input type="number" id="p-stock" required placeholder="Stock" class="border p-2.5 rounded-lg bg-slate-50 focus:ring-2 focus:ring-italiaGreen focus:outline-none w-full">
-                            </div>
-                            <div>
-                                <label class="block font-bold text-slate-500 mb-1">Etiqueta (Opcional)</label>
-                                <input type="text" id="p-badge" placeholder="Ej: OFERTA, NUEVO" class="border p-2.5 rounded-lg bg-slate-50 focus:ring-2 focus:ring-italiaGreen focus:outline-none w-full">
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-2 gap-3">
-                            <div>
-                                <label class="block font-bold text-slate-500 mb-1">Categoría</label>
-                                <select id="p-category" required class="w-full border p-2.5 rounded-lg bg-slate-50 focus:ring-2 focus:ring-italiaGreen focus:outline-none">
-                                    <option>Obra Gruesa</option>
-                                    <option>Techumbre</option>
-                                    <option>Herramientas</option>
-                                    <option>Terminaciones</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block font-bold text-slate-500 mb-1">Unidad de Medida</label>
-                                <select id="p-unit" required class="w-full border p-2.5 rounded-lg bg-slate-50 focus:ring-2 focus:ring-italiaGreen focus:outline-none">
-                                    <option value="unidad">unidad</option>
-                                    <option value="saco">saco</option>
-                                    <option value="tira">tira</option>
-                                    <option value="plancha">plancha</option>
-                                    <option value="metro">metro</option>
-                                    <option value="galón">galón</option>
-                                </select>
+                                <label class="block font-bold text-slate-500 mb-1">Stock Inicial</label>
+                                <input type="number" id="p-stock" required placeholder="Ej: 50" class="w-full border border-slate-200 rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-italiaGreen bg-slate-50">
                             </div>
                         </div>
                         <div>
-                            <label class="block font-bold text-slate-500 mb-1">URL Foto de Producto</label>
-                            <input type="text" id="p-image" placeholder="URL Foto de Producto" class="w-full border p-2.5 rounded-lg bg-slate-50 focus:ring-2 focus:ring-italiaGreen focus:outline-none">
+                            <label class="block font-bold text-slate-500 mb-1">Categoría</label>
+                            <select id="p-category" required class="w-full border border-slate-200 bg-slate-50 rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-italiaGreen">
+                                <option value="Obra Gruesa">Obra Gruesa</option>
+                                <option value="Techumbre">Techumbre</option>
+                                <option value="Herramientas">Herramientas</option>
+                                <option value="Terminaciones">Terminaciones</option>
+                            </select>
                         </div>
-                        <div class="flex gap-2">
-                            <button type="button" id="btn-cancel-edit" onclick="window.cancelarEdicion()" class="hidden flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3 rounded-lg transition-all text-xs">Cancelar</button>
-                            <button type="submit" id="btn-submit-form" class="flex-2 bg-italiaGreen hover:bg-emerald-700 text-white font-bold py-3 rounded-lg shadow-md transition-all text-xs w-full">Guardar y Sincronizar</button>
+                        <div>
+                            <label class="block font-bold text-slate-500 mb-1">Enlace de Imagen (Opcional)</label>
+                            <input type="text" id="p-image" placeholder="Pegar enlace de imagen..." class="w-full border border-slate-200 rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-italiaGreen bg-slate-50">
                         </div>
+                        <button type="submit" class="w-full bg-italiaGreen hover:bg-emerald-700 text-white font-bold py-3 rounded-lg text-xs transition-all flex items-center justify-center gap-2 shadow-md shadow-emerald-500/10">
+                            <i class="fa-solid fa-save"></i> Guardar Material
+                        </button>
                     </form>
                 </div>
 
-                <!-- Tarjeta: Sincronización Firebase -->
-                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm bg-gradient-to-br from-white to-orange-50/20">
-                    <h3 class="font-bold text-sm border-b pb-2 mb-3 text-slate-900"><i class="fa-solid fa-database text-brandOrange"></i> Conexión Firebase (Nube Cañete)</h3>
-                    <p class="text-[10px] text-slate-500 mb-3 leading-relaxed">Pega tu script de configuración en formato JSON para conectar la base de datos.</p>
-                    <textarea id="admin-firebase-config" rows="5" placeholder='{\n  "apiKey": "...",\n  "authDomain": "...",\n  "projectId": "..."\n}' class="w-full font-mono text-[10px] border p-2.5 rounded-lg bg-white focus:ring-2 focus:ring-brandOrange focus:outline-none"></textarea>
-                    <button onclick="window.guardarFirebaseConfig()" class="w-full bg-slate-950 text-white font-bold py-2.5 rounded-lg mt-3 text-xs tracking-wider">GUARDAR CONFIGURACIÓN DE NUBE</button>
+                <!-- CONFIGURACIÓN: CLAVE DE LA API DE GOOGLE AI STUDIO -->
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
+                    <h3 class="font-display font-bold text-sm text-slate-900 border-b pb-2 flex items-center gap-2 uppercase tracking-wider">
+                        <i class="fa-solid fa-key text-italiaRed"></i> Google AI Studio (Gemini)
+                    </h3>
+                    <p class="text-xs text-slate-500 leading-relaxed">
+                        Pega tu clave <strong>API Key</strong> de Gemini aquí. Habilitará respuestas inteligentes automáticas y cálculos reales en el asistente del cliente.
+                    </p>
+                    <div class="space-y-3 text-xs">
+                        <div>
+                            <label class="block font-bold text-slate-500 mb-1">API Key de Gemini</label>
+                            <input type="password" id="admin-api-key" placeholder="AIzaSy..." class="w-full border border-slate-200 rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-italiaGreen bg-slate-50">
+                        </div>
+                        <button onclick="guardarAPIKey()" class="w-full bg-slate-950 hover:bg-black text-white font-bold py-2.5 rounded-lg transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-floppy-disk"></i> Guardar API Key
+                        </button>
+                    </div>
                 </div>
             </div>
-            
-            <div class="lg:col-span-2 space-y-6">
-                <!-- Tabla: Gestión de Turnos -->
-                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-                    <h3 class="font-bold text-sm border-b pb-2 flex justify-between"><span>Control de Turnos de Sucursal</span><span id="admin-waiting-count" class="text-slate-500">0</span></h3>
-                    <table class="w-full text-left text-xs mt-3">
-                        <thead>
-                            <tr class="bg-slate-50 text-slate-400 font-bold uppercase">
-                                <th class="p-2">Cliente</th>
-                                <th class="p-2">Área</th>
-                                <th class="p-2 text-center">Acción</th>
-                            </tr>
-                        </thead>
-                        <tbody id="admin-turns-body" class="divide-y divide-slate-100"></tbody>
-                    </table>
+
+            <!-- TABLA: LISTADO DE PRODUCTOS EXISTENTES -->
+            <div class="lg:col-span-2 bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
+                <div class="flex justify-between items-center border-b pb-2">
+                    <h3 class="font-display font-bold text-sm text-slate-900 flex items-center gap-2 uppercase tracking-wider">
+                        <i class="fa-solid fa-table-list text-italiaRed"></i> Catálogo Completo del Local
+                    </h3>
+                    <span id="admin-total-count" class="text-xs font-bold text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full">0 Insumos</span>
                 </div>
-                <!-- Tabla: Catálogo Maestro -->
-                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm font-sans">
-                    <h3 class="font-bold text-sm border-b pb-2 flex justify-between"><span>Catálogo en Exhibición</span><span id="admin-total-count" class="text-slate-500 font-bold">0</span></h3>
-                    <table class="w-full text-left text-xs mt-3">
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-xs">
                         <thead>
-                            <tr class="bg-slate-50 text-slate-400 font-bold uppercase">
-                                <th class="p-2 font-bold">Producto</th>
-                                <th class="p-2 font-bold">Categoría</th>
-                                <th class="p-2 font-bold">Precio</th>
-                                <th class="p-2 text-center">Acciones</th>
+                            <tr class="bg-slate-50 text-slate-400 border-b border-slate-100 uppercase tracking-wider font-semibold">
+                                <th class="p-3">Producto</th>
+                                <th class="p-3">Categoría</th>
+                                <th class="p-3 text-right">Precio</th>
+                                <th class="p-3 text-center">Stock</th>
+                                <th class="p-3 text-center">Acciones</th>
                             </tr>
                         </thead>
                         <tbody id="admin-table-body" class="divide-y divide-slate-100"></tbody>
@@ -1091,5 +376,310 @@
             </div>
         </div>
     </div>
+
+    <!-- PIE DE PÁGINA -->
+    <footer class="bg-white border-t border-slate-100 py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-3">
+            <p class="text-xs text-slate-500">
+                <strong>Ferretería La Italiana</strong> — Calle Villagrán 1080, Cañete, Provincia de Arauco, Región del Biobío, Chile.
+            </p>
+            <p class="text-[10px] text-slate-400 font-medium">
+                Socio estratégico Redmat — Diseñado para la comunidad.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Variables Base
+        const apiKey = ""; 
+
+        const CATALOGO_INICIAL = [
+            { id: 1, name: "Plancha Zinc Ondulada 0.35mm x 3.66m", price: 12500, category: "Techumbre", stock: 120, image: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=400&q=80" },
+            { id: 2, name: "Cemento Melón Especial 25kg", price: 5800, category: "Obra Gruesa", stock: 450, image: "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=400&q=80" },
+            { id: 3, name: "Pino Dimensionado 2x3'' x 3.2m", price: 3200, category: "Obra Gruesa", stock: 300, image: "https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&fit=crop&w=400&q=80" },
+            { id: 4, name: "Plancha Vulcanita Estándar 10mm", price: 8900, category: "Terminaciones", stock: 80, image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=400&q=80" },
+            { id: 5, name: "Taladro Percutor 650W Bauker", price: 34900, category: "Herramientas", stock: 15, image: "https://images.unsplash.com/photo-1504148455328-c376907d081c?auto=format&fit=crop&w=400&q=80" }
+        ];
+
+        let products = [];
+        let cart = [];
+        let currentCategory = "Todos";
+        let deleteIdTemp = null;
+        let chatHistory = []; 
+
+        // Inicialización
+        window.onload = function() {
+            if (!localStorage.getItem("la_italiana_products")) {
+                localStorage.setItem("la_italiana_products", JSON.stringify(CATALOGO_INICIAL));
+            }
+            products = JSON.parse(localStorage.getItem("la_italiana_products"));
+            
+            const savedKey = localStorage.getItem("la_italiana_api_key") || apiKey;
+            if (savedKey) document.getElementById("admin-api-key").value = savedKey;
+
+            actualizarEstadoAPI();
+            renderCatalog();
+            actualizarContadoresCarrito();
+        };
+
+        // Renderizado Dinámico Catálogo Front
+        function renderCatalog(searchFilter = "") {
+            const grid = document.getElementById("catalog-grid");
+            grid.innerHTML = "";
+
+            const filtered = products.filter(p => {
+                const matchesCategory = (currentCategory === "Todos" || p.category === currentCategory);
+                const matchesSearch = p.name.toLowerCase().includes(searchFilter.toLowerCase());
+                return matchesCategory && matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `<div class="col-span-full bg-white border border-slate-200 p-12 rounded-2xl text-center text-slate-400 space-y-3 shadow-sm"><i class="fa-solid fa-circle-exclamation text-3xl text-amber-500 animate-pulse"></i><p class="text-xs font-semibold">No se encontraron productos para esta búsqueda o categoría.</p></div>`;
+                return;
+            }
+
+            filtered.forEach(p => {
+                const imgUrl = p.image || "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=400&q=80";
+                const card = document.createElement("div");
+                card.className = "bg-white rounded-2xl border border-slate-200 overflow-hidden flex flex-col justify-between hover:shadow-xl hover:border-slate-300/80 transition-all duration-300 group";
+                card.innerHTML = `
+                    <div>
+                        <div class="h-44 w-full bg-slate-100 relative overflow-hidden border-b border-slate-100">
+                            <img src="${imgUrl}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                            <span class="absolute top-2.5 left-2.5 bg-white/95 text-emerald-800 text-[10px] font-extrabold px-2.5 py-1 rounded-lg border border-slate-200 shadow-sm">${p.category}</span>
+                        </div>
+                        <div class="p-5 space-y-3">
+                            <h4 class="font-display font-bold text-sm text-slate-900 line-clamp-2 min-h-[40px] leading-snug">${p.name}</h4>
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs font-semibold text-slate-400">Existencias: ${p.stock} un.</span>
+                                <span class="font-display font-extrabold text-base text-italiaGreen">$${p.price.toLocaleString('es-CL')}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-5 pt-0">
+                        <button onclick="agregarAlCarrito(${p.id})" class="w-full bg-slate-50 hover:bg-italiaGreen hover:text-white border border-slate-250 text-slate-700 text-xs font-bold py-2.5 rounded-xl transition-all flex items-center justify-center gap-2 shadow-sm"><i class="fa-solid fa-cart-plus"></i> Añadir a Cotización</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filtrarCategoria(cat) {
+            currentCategory = cat;
+            document.querySelectorAll(".cat-btn").forEach(btn => btn.className = "cat-btn px-4 py-2 rounded-lg text-xs font-bold transition-all bg-slate-50 border border-slate-200 text-slate-600 hover:bg-slate-100");
+            const selectedBtnId = `btn-cat-${cat.replace(" ", "-")}`;
+            const selectedBtn = document.getElementById(selectedBtnId);
+            if (selectedBtn) selectedBtn.className = "cat-btn px-4 py-2 rounded-lg text-xs font-bold transition-all bg-italiaGreen text-white shadow-sm";
+            renderCatalog();
+        }
+
+        function buscarProducto() { renderCatalog(document.getElementById("search-input").value); }
+
+        // Carrito de Cotización
+        function agregarAlCarrito(id) {
+            const prod = products.find(p => p.id === id);
+            if (!prod) return;
+            const existing = cart.find(item => item.id === id);
+            if (existing) existing.qty++; else cart.push({ ...prod, qty: 1 });
+            showToast(`"${prod.name}" añadido a la cotización`, "success");
+            actualizarContadoresCarrito(); renderCart();
+        }
+
+        function cambiarCantidadCarrito(id, delta) {
+            const item = cart.find(i => i.id === id);
+            if (!item) return;
+            item.qty += delta;
+            if (item.qty <= 0) { cart = cart.filter(i => i.id !== id); showToast("Producto eliminado", "info"); }
+            actualizarContadoresCarrito(); renderCart();
+        }
+
+        function actualizarContadoresCarrito() {
+            const totalQty = cart.reduce((acc, curr) => acc + curr.qty, 0);
+            const totalPrice = cart.reduce((acc, curr) => acc + (curr.price * curr.qty), 0);
+            document.getElementById("cart-count").innerText = totalQty;
+            document.getElementById("cart-total").innerText = `$${totalPrice.toLocaleString('es-CL')}`;
+        }
+
+        function renderCart() {
+            const container = document.getElementById("cart-list");
+            container.innerHTML = "";
+            if (cart.length === 0) {
+                container.innerHTML = `<div class="text-center py-8 text-slate-400 flex flex-col items-center justify-center gap-2"><i class="fa-solid fa-box-open text-2xl text-slate-200"></i><p class="text-xs">No hay productos agregados</p></div>`;
+                return;
+            }
+            cart.forEach(item => {
+                const subtotal = item.price * item.qty;
+                const div = document.createElement("div");
+                div.className = "flex items-center justify-between gap-3 border-b border-slate-100 pb-2.5 text-xs";
+                div.innerHTML = `
+                    <div class="flex-grow space-y-0.5 pr-2">
+                        <h5 class="font-bold text-slate-800 line-clamp-1 leading-snug">${item.name}</h5>
+                        <p class="text-[10px] text-slate-500 font-semibold">$${item.price.toLocaleString('es-CL')} c/u</p>
+                    </div>
+                    <div class="flex items-center gap-2.5 shrink-0">
+                        <div class="flex items-center border border-slate-200 rounded-lg overflow-hidden bg-white shadow-sm">
+                            <button onclick="cambiarCantidadCarrito(${item.id}, -1)" class="px-2.5 py-1 bg-slate-50 hover:bg-slate-100 font-bold">-</button>
+                            <span class="px-2.5 text-xs font-bold">${item.qty}</span>
+                            <button onclick="cambiarCantidadCarrito(${item.id}, 1)" class="px-2.5 py-1 bg-slate-50 hover:bg-slate-100 font-bold">+</button>
+                        </div>
+                        <span class="font-display font-bold text-slate-900 w-16 text-right">$${subtotal.toLocaleString('es-CL')}</span>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function enviarWhatsApp() {
+            if (cart.length === 0) return showToast("Debes agregar productos", "error");
+            let text = "¡Hola! Me gustaría cotizar los siguientes materiales en Ferretería La Italiana de Cañete:\n\n";
+            cart.forEach(item => text += `• ${item.qty} x ${item.name} - $${(item.price * item.qty).toLocaleString('es-CL')}\n`);
+            const total = cart.reduce((acc, curr) => acc + (curr.price * curr.qty), 0);
+            text += `\n*Total Estimado:* $${total.toLocaleString('es-CL')}\n\nPor favor, confirmar disponibilidad y costo de despacho a domicilio.`;
+            window.open(`https://wa.me/56912345678?text=${encodeURIComponent(text)}`, "_blank");
+        }
+
+        // Gemini AI Assistant
+        function actualizarEstadoAPI() {
+            const key = obtenerAPIKey();
+            const statusEl = document.getElementById("api-status");
+            if (key) {
+                statusEl.innerText = "Gemini 2.5 Activo";
+                statusEl.className = "text-[9px] text-emerald-100 font-bold bg-emerald-800/80 px-2 py-0.5 rounded";
+            } else {
+                statusEl.innerText = "Modo Demo (Sin API Key)";
+                statusEl.className = "text-[9px] text-amber-100 font-medium bg-amber-800/50 px-2 py-0.5 rounded animate-pulse";
+            }
+        }
+
+        function obtenerAPIKey() { return localStorage.getItem("la_italiana_api_key") || ""; }
+
+        function guardarAPIKey() {
+            const key = document.getElementById("admin-api-key").value.trim();
+            localStorage.setItem("la_italiana_api_key", key);
+            actualizarEstadoAPI(); showToast("API Key guardada", "success");
+        }
+
+        async function llamarGeminiAPI(query) {
+            const apiKeyValue = obtenerAPIKey();
+            if (!apiKeyValue) return { success: false, error: "API Key no configurada" };
+
+            const systemPrompt = `Eres el Asistente Inteligente de "Ferretería La Italiana", ubicada en Villagrán 1080, Cañete (Región del Biobío, Chile). Ayudas a maestros constructores a cotizar materiales. Habla con tono chileno. Organiza los materiales solicitados al final para sugerirlos.`;
+
+            chatHistory.push({ role: "user", parts: [{ text: query }] });
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKeyValue}`;
+            
+            try {
+                const response = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ contents: chatHistory, systemInstruction: { parts: [{ text: systemPrompt }] } }) });
+                if (!response.ok) throw new Error("Fallo de conexión");
+                const result = await response.json();
+                const text = result.candidates?.[0]?.content?.parts?.[0]?.text;
+                if (text) {
+                    chatHistory.push({ role: "model", parts: [{ text: text }] });
+                    return { success: true, text: text };
+                }
+            } catch (error) { return { success: false, error: error.message }; }
+        }
+
+        function mostrarIndicadorCargando() {
+            const chatBox = document.getElementById("chat-box");
+            const div = document.createElement("div");
+            div.id = "typing-indicator";
+            div.className = "bg-slate-100 p-3 rounded-xl rounded-tl-none text-slate-500 max-w-[90%] flex items-center gap-1.5 animate-pulse";
+            div.innerHTML = `<i class="fa-solid fa-circle-notch animate-spin text-italiaGreen"></i><span>Calculando...</span>`;
+            chatBox.appendChild(div); chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function removerIndicadorCargando() { const el = document.getElementById("typing-indicator"); if (el) el.remove(); }
+
+        function handleChatPress(e) { if (e.key === 'Enter') enviarMensajeChat(); }
+
+        async function enviarMensajeChat() {
+            const input = document.getElementById("chat-input");
+            const val = input.value.trim();
+            if (!val) return;
+
+            const chatBox = document.getElementById("chat-box");
+            chatBox.innerHTML += `<div class="bg-emerald-500/10 text-emerald-900 border border-emerald-500/10 p-3 rounded-xl rounded-tr-none text-right max-w-[90%] self-end ml-auto font-medium">${val}</div>`;
+            input.value = ""; chatBox.scrollTop = chatBox.scrollHeight;
+
+            mostrarIndicadorCargando();
+            const apiRes = await llamarGeminiAPI(val);
+            removerIndicadorCargando();
+            
+            if (apiRes && apiRes.success) {
+                chatBox.innerHTML += `<div class="bg-slate-100 p-3 rounded-xl rounded-tl-none text-slate-700 max-w-[90%] leading-relaxed whitespace-pre-line">${apiRes.text}</div>`;
+            } else {
+                chatBox.innerHTML += `<div class="bg-slate-100 p-3 rounded-xl rounded-tl-none text-slate-700 max-w-[90%] leading-relaxed"><strong>[Modo Demo]</strong> Has consultado: <em>"${val}"</em>.<br>Para activar la IA real de Gemini, ingresa tu API Key en el Panel de Administrador.</div>`;
+            }
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        async function solicitarAsistencia(tipo) {
+            const promptDemo = tipo === 'renovar techo' ? "Necesito materiales para cambiar techo" : "Recomiéndame un buen taladro";
+            document.getElementById("chat-input").value = promptDemo;
+            enviarMensajeChat();
+        }
+
+        // Modales & Admin
+        function abrirModalAdmin() { document.getElementById("login-modal").classList.remove("hidden", "opacity-0"); document.getElementById("login-modal").querySelector("div").classList.remove("scale-95"); }
+        function abrirConfirmModal() { document.getElementById("confirm-modal").classList.remove("hidden", "opacity-0"); document.getElementById("confirm-modal").querySelector("div").classList.remove("scale-95"); }
+        function cerrarConfirmModal() { document.getElementById("confirm-modal").classList.add("opacity-0"); document.getElementById("confirm-modal").querySelector("div").classList.add("scale-95"); setTimeout(() => { document.getElementById("confirm-modal").classList.add("hidden"); deleteIdTemp = null; }, 300); }
+
+        function ejecutarEliminacion() {
+            if (deleteIdTemp !== null) {
+                products = products.filter(p => p.id !== deleteIdTemp);
+                localStorage.setItem("la_italiana_products", JSON.stringify(products));
+                renderAdminTable(); showToast("Eliminado", "info");
+            }
+            cerrarConfirmModal();
+        }
+
+        function cerrarModalAdmin() { document.getElementById("login-modal").classList.add("opacity-0"); document.getElementById("login-modal").querySelector("div").classList.add("scale-95"); setTimeout(() => { document.getElementById("login-modal").classList.add("hidden"); document.getElementById("admin-pass").value = ""; }, 300); }
+
+        function verificarAdmin() {
+            const pass = document.getElementById("admin-pass").value;
+            if (pass === "admin") { cerrarModalAdmin(); document.getElementById("admin-panel").classList.remove("hidden"); document.getElementById("admin-panel").classList.add("flex"); renderAdminTable(); showToast("Bienvenido", "success"); } else showToast("Clave incorrecta", "error");
+        }
+
+        function cerrarPanelAdmin() { document.getElementById("admin-panel").classList.add("hidden"); document.getElementById("admin-panel").classList.remove("flex"); renderCatalog(); }
+
+        function renderAdminTable() {
+            const tbody = document.getElementById("admin-table-body"); tbody.innerHTML = "";
+            document.getElementById("admin-total-count").innerText = `${products.length} Insumos`;
+            products.forEach(p => {
+                const tr = document.createElement("tr"); tr.className = "hover:bg-slate-50";
+                tr.innerHTML = `<td class="p-3 font-bold">${p.name}</td><td class="p-3"><span class="bg-slate-100 px-2 py-1 rounded text-[10px] font-bold uppercase">${p.category}</span></td><td class="p-3 text-right font-bold text-italiaGreen">$${p.price.toLocaleString('es-CL')}</td><td class="p-3 text-center">${p.stock} un.</td><td class="p-3 text-center"><button onclick="eliminarProducto(${p.id})" class="text-italiaRed p-2"><i class="fa-solid fa-trash-can"></i></button></td>`;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function guardarNuevoProducto(e) {
+            e.preventDefault();
+            const name = document.getElementById("p-name").value.trim(), price = parseInt(document.getElementById("p-price").value), stock = parseInt(document.getElementById("p-stock").value), category = document.getElementById("p-category").value, image = document.getElementById("p-image").value.trim();
+            if (!name || isNaN(price)) return showToast("Datos inválidos", "error");
+            products.push({ id: products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1, name, price, stock, category, image: image || null });
+            localStorage.setItem("la_italiana_products", JSON.stringify(products));
+            document.getElementById("product-form").reset(); renderAdminTable(); showToast("Agregado", "success");
+        }
+
+        function eliminarProducto(id) {
+            deleteIdTemp = id;
+            document.getElementById("confirm-message").innerText = `¿Deseas eliminar este material?`;
+            document.getElementById("confirm-btn-action").onclick = ejecutarEliminacion;
+            abrirConfirmModal();
+        }
+
+        function showToast(message, type = "success") {
+            const container = document.getElementById("toast-container");
+            const toast = document.createElement("div");
+            const bgColor = type === "error" ? "bg-white border-red-500" : "bg-white border-emerald-500";
+            const icon = type === "error" ? '<i class="fa-solid fa-triangle-exclamation text-red-500 text-lg"></i>' : '<i class="fa-solid fa-circle-check text-emerald-500 text-lg"></i>';
+            toast.className = `flex items-center gap-3 p-4 rounded-xl border-l-4 shadow-lg ${bgColor} transform translate-y-2 opacity-0 transition-all duration-300`;
+            toast.innerHTML = `${icon}<div class="flex-grow"><p class="text-xs font-bold">${message}</p></div><button onclick="this.parentElement.remove()"><i class="fa-solid fa-xmark"></i></button>`;
+            container.appendChild(toast);
+            setTimeout(() => toast.classList.remove("translate-y-2", "opacity-0"), 10);
+            setTimeout(() => { toast.classList.add("translate-y-2", "opacity-0"); setTimeout(() => toast.remove(), 300); }, 4000);
+        }
+    </script>
 </body>
 </html>
