@@ -4,7 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ferretería La Italiana - Catálogo y Ventas Cañete</title>
-    
+
+    <!-- Meta SEO y Open Graph para compartir en redes/WhatsApp -->
+    <meta name="description" content="Ferretería La Italiana Cañete. Materiales de construcción, techumbre, herramientas y terminaciones. Distribuidores oficiales Redmat en la Provincia de Arauco.">
+    <meta property="og:title" content="Ferretería La Italiana - Cañete, Biobío">
+    <meta property="og:description" content="Catálogo digital de materiales, ofertas destacadas y venta directa por WhatsApp. Villagrán 1080, Cañete.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1504148455328-c376907d081c?auto=format&fit=crop&w=1200&q=80">
+    <meta name="theme-color" content="#FF5A1F">
+
     <script src="https://cdn.tailwindcss.com"></script>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -41,6 +49,16 @@
         .custom-scroll::-webkit-scrollbar-track { background: #f1f5f9; }
         .custom-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
         .custom-scroll::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        /* Menú móvil */
+        #mobile-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        #mobile-menu.open {
+            max-height: 400px;
+        }
     </style>
 </head>
 <body class="bg-[#FDFDFD] text-slate-800 min-h-screen flex flex-col font-sans selection:bg-brandOrange selection:text-white" id="app-body">
@@ -59,8 +77,8 @@
         </div>
     </div>
 
-    <header class="sticky top-0 bg-white/95 backdrop-blur border-b border-slate-100 z-40 px-6 py-4 shadow-sm">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
+    <header class="sticky top-0 bg-white/95 backdrop-blur border-b border-slate-100 z-40 shadow-sm">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center gap-3 cursor-pointer" onclick="window.switchMainTab('catalogo', 'hero-cover')">
                 <div class="h-10 w-1.5 bg-gradient-to-b from-italiaGreen via-white to-italiaRed rounded-full"></div>
                 <div>
@@ -73,6 +91,7 @@
                 </div>
             </div>
 
+            <!-- Nav escritorio -->
             <nav class="hidden md:flex items-center gap-8 text-xs font-bold tracking-wider uppercase text-slate-600">
                 <button onclick="window.switchMainTab('catalogo', 'hero-cover')" class="hover:text-brandOrange transition-colors uppercase">Inicio</button>
                 <button onclick="window.switchMainTab('catalogo', 'section-catalog')" class="hover:text-brandOrange transition-colors uppercase">Ofertas</button>
@@ -81,13 +100,29 @@
             </nav>
 
             <div class="flex items-center gap-3.5">
-                <button onclick="window.abrirModalAdmin()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold px-4 py-2.5 rounded-xl transition-all border border-slate-200">
-                    <i class="fa-solid fa-lock mr-1.5 text-brandOrange"></i> Acceso Admin
+                <!-- Admin oculto: solo visible en escritorio y discreto -->
+                <button onclick="window.abrirModalAdmin()" class="hidden md:flex bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold px-4 py-2.5 rounded-xl transition-all border border-slate-200 items-center">
+                    <i class="fa-solid fa-lock mr-1.5 text-brandOrange"></i> Admin
                 </button>
                 <button onclick="window.switchMainTab('catalogo', 'section-contact-vendedor')" class="hidden sm:flex bg-brandOrange hover:bg-orange-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-md shadow-orange-500/10 items-center">
                     <i class="fa-solid fa-headset mr-1.5"></i> Venta Directa
                 </button>
+                <!-- Botón hamburguesa móvil -->
+                <button id="hamburger-btn" onclick="window.toggleMobileMenu()" class="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100 transition-colors">
+                    <i class="fa-solid fa-bars text-lg"></i>
+                </button>
             </div>
+        </div>
+
+        <!-- Menú desplegable móvil -->
+        <div id="mobile-menu" class="md:hidden border-t border-slate-100 bg-white">
+            <nav class="flex flex-col px-6 py-3 gap-1 text-xs font-bold tracking-wider uppercase text-slate-700">
+                <button onclick="window.switchMainTab('catalogo', 'hero-cover'); window.toggleMobileMenu()" class="text-left py-3 border-b border-slate-50 hover:text-brandOrange transition-colors flex items-center gap-2"><i class="fa-solid fa-house w-4 text-slate-400"></i> Inicio</button>
+                <button onclick="window.switchMainTab('catalogo', 'section-catalog'); window.toggleMobileMenu()" class="text-left py-3 border-b border-slate-50 hover:text-brandOrange transition-colors flex items-center gap-2"><i class="fa-solid fa-tag w-4 text-slate-400"></i> Ofertas</button>
+                <button onclick="window.switchMainTab('catalogo', 'section-contact-vendedor'); window.toggleMobileMenu()" class="text-left py-3 border-b border-slate-50 hover:text-brandOrange transition-colors flex items-center gap-2"><i class="fa-brands fa-whatsapp w-4 text-emerald-500"></i> Contactar Vendedor</button>
+                <button onclick="window.switchMainTab('turnos'); window.toggleMobileMenu()" class="text-left py-3 border-b border-slate-50 hover:text-brandOrange transition-colors flex items-center gap-2"><i class="fa-solid fa-list-ol w-4 text-slate-400"></i> Fila Virtual</button>
+                <button onclick="window.abrirModalAdmin(); window.toggleMobileMenu()" class="text-left py-3 hover:text-brandOrange transition-colors flex items-center gap-2 text-slate-400"><i class="fa-solid fa-lock w-4"></i> Acceso Admin</button>
+            </nav>
         </div>
     </header>
 
@@ -118,7 +153,7 @@
                     </div>
                 </div>
                 
-                <div class="relative hidden md:block">
+                <div class="relative">
                     <div class="absolute inset-0 bg-gradient-to-r from-brandOrange/10 to-emerald-500/10 blur-3xl rounded-full"></div>
                     <div class="bg-white border border-slate-200/80 p-3 rounded-[2.5rem] shadow-2xl max-w-md mx-auto">
                         <div class="overflow-hidden rounded-[2rem] border border-slate-100">
@@ -468,7 +503,7 @@
                             </table>
                         </div>
                         <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm font-sans">
-                            <h3 class="font-bold text-sm border-b pb-2 flex justify-between"><span>Ofertas en Exhibición</span><span id=\"admin-total-count\" class=\"text-slate-500 font-bold\">0</span></h3>
+                            <h3 class="font-bold text-sm border-b pb-2 flex justify-between"><span>Ofertas en Exhibición</span><span id="admin-total-count" class="text-slate-500 font-bold">0</span></h3>
                             <table class="w-full text-left text-xs mt-3">
                                 <thead>
                                     <tr class="bg-slate-50 text-slate-400 font-bold uppercase">
@@ -767,12 +802,20 @@
                             <td class="p-2 text-slate-400 text-[11px] font-semibold">${p.category}</td>
                             <td class="p-2 font-mono font-bold">$${(p.price_offer || p.price).toLocaleString('es-CL')}</td>
                             <td class="p-2 text-center flex justify-center gap-1">
-                                <button onclick="window.cargarEditarProductoAdmin('${p.id}')" class="p-1.5 text-blue-600 hover:bg-blue-50 rounded"><i class="fa-solid fa-pen-to-square"></i></button>
-                                <button onclick="window.eliminarProductoAdmin('${p.id}')" class="p-1.5 text-italiaRed hover:bg-red-50 rounded"><i class="fa-solid fa-trash-can"></i></button>
+                                <button data-edit-id="${p.id}" class="btn-admin-edit p-1.5 text-blue-600 hover:bg-blue-50 rounded"><i class="fa-solid fa-pen-to-square"></i></button>
+                                <button data-del-id="${p.id}" class="btn-admin-del p-1.5 text-italiaRed hover:bg-red-50 rounded"><i class="fa-solid fa-trash-can"></i></button>
                             </td>
                         `;
                         pBody.appendChild(tr);
                     });
+
+                    // Event delegation — evita bugs con comillas/apóstrofes en IDs inline
+                    pBody.onclick = function(e) {
+                        const editBtn = e.target.closest('.btn-admin-edit');
+                        const delBtn = e.target.closest('.btn-admin-del');
+                        if (editBtn) window.cargarEditarProductoAdmin(editBtn.dataset.editId);
+                        if (delBtn) window.eliminarProductoAdmin(delBtn.dataset.delId);
+                    };
                 }
 
                 // Render Turnos Administrativo
@@ -789,15 +832,22 @@
                             </td>
                             <td class="p-2 font-semibold text-slate-400 text-[10px]">${t.area}</td>
                             <td class="p-2 text-center flex justify-center gap-1.5 items-center pt-3">
-                                ${t.status !== 'atendiendo' ? 
-                                    `<button onclick="window.cambiarEstadoTurnoAdmin('${t.id}', 'atendiendo')" class="bg-emerald-500 hover:bg-emerald-600 text-white font-sans font-bold px-2 py-1 rounded text-[10px] uppercase">Llamar</button>` : 
+                                ${t.status !== 'atendiendo' ?
+                                    `<button data-llamar-id="${t.id}" class="btn-admin-llamar bg-emerald-500 hover:bg-emerald-600 text-white font-sans font-bold px-2 py-1 rounded text-[10px] uppercase">Llamar</button>` :
                                     `<span class="text-emerald-600 font-bold text-[10px] uppercase animate-pulse mr-1">Atendiendo...</span>`
                                 }
-                                <button onclick="window.eliminarTurnoAdmin('${t.id}')" class="text-italiaRed hover:bg-red-50 p-1.5 rounded" title="Remover de la fila"><i class="fa-solid fa-circle-check text-sm text-emerald-600"></i></button>
+                                <button data-del-turno-id="${t.id}" class="btn-admin-del-turno text-italiaRed hover:bg-red-50 p-1.5 rounded" title="Remover de la fila"><i class="fa-solid fa-circle-check text-sm text-emerald-600"></i></button>
                             </td>
                         `;
                         tBody.appendChild(tr);
                     });
+
+                    tBody.onclick = function(e) {
+                        const llamarBtn = e.target.closest('.btn-admin-llamar');
+                        const delTurnoBtn = e.target.closest('.btn-admin-del-turno');
+                        if (llamarBtn) window.cambiarEstadoTurnoAdmin(llamarBtn.dataset.llamarId, 'atendiendo');
+                        if (delTurnoBtn) window.eliminarTurnoAdmin(delTurnoBtn.dataset.delTurnoId);
+                    };
                 }
             }
 
@@ -1053,6 +1103,20 @@
                     toast.className += ' opacity-0 translate-y-2';
                     setTimeout(() => toast.remove(), 300);
                 }, 3500);
+            };
+
+            // --- MENÚ HAMBURGUESA MÓVIL ---
+            window.toggleMobileMenu = function() {
+                const menu = document.getElementById('mobile-menu');
+                const btn = document.getElementById('hamburger-btn');
+                const isOpen = menu.classList.contains('open');
+                if (isOpen) {
+                    menu.classList.remove('open');
+                    btn.innerHTML = '<i class="fa-solid fa-bars text-lg"></i>';
+                } else {
+                    menu.classList.add('open');
+                    btn.innerHTML = '<i class="fa-solid fa-xmark text-lg"></i>';
+                }
             };
 
             // --- AUTOMÁTICA AL CARGAR ---
