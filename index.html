@@ -587,25 +587,32 @@
                         document.getElementById('firebase-config-json').value = JSON.stringify(config, null, 2);
                     }
 
-                    if (config && config.apiKey) {
-                        // Evitar reinicializar si ya existe la app
-                        if (!firebase.apps.length) {
-                            firebase.initializeApp(config);
-                        }
-                        db = firebase.firestore();
-                        isConfigCloudActive = true;
-                        
-                        pulseEl.className = "inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse";
-                        statusTxt.textContent = "Nube Firebase Sincronizada (Cañete Online)";
-                        statusTxt.className = "font-mono text-emerald-400 text-xs";
-                        
-                        // Enlazar escuchas de base de datos distribuidos
-                        escucharProductosNube();
-                        escucharTurnosNube();
-                        escucharConfiguracionNube();
-                    } else {
-                        lanzarModoLocalFallback("Sin Configuración de Nube");
+                    // Configuración Firebase hardcodeada (siempre activa)
+                    const FIREBASE_CONFIG_FIJA = {
+                        apiKey: "AIzaSyCkp-4rE2ExhiYTA5Z0zZ0gh9IugQFPIMM",
+                        authDomain: "ferreteria-la-italiana.firebaseapp.com",
+                        projectId: "ferreteria-la-italiana",
+                        storageBucket: "ferreteria-la-italiana.firebasestorage.app",
+                        messagingSenderId: "502572258720",
+                        appId: "1:502572258720:web:62c0435f34e7d6580d00c5"
+                    };
+
+                    // Usar config guardada o la fija
+                    const configFinal = (config && config.apiKey) ? config : FIREBASE_CONFIG_FIJA;
+
+                    if (!firebase.apps.length) {
+                        firebase.initializeApp(configFinal);
                     }
+                    db = firebase.firestore();
+                    isConfigCloudActive = true;
+
+                    pulseEl.className = "inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse";
+                    statusTxt.textContent = "Nube Firebase Sincronizada (Cañete Online)";
+                    statusTxt.className = "font-mono text-emerald-400 text-xs";
+
+                    escucharProductosNube();
+                    escucharTurnosNube();
+                    escucharConfiguracionNube();
                 } catch (e) {
                     console.error("Error inicializando Firebase:", e);
                     lanzarModoLocalFallback("Error de Credenciales");
