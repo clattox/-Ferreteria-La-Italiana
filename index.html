@@ -621,7 +621,13 @@
                 
                 // Cargar datos locales desde memoria/localStorage
                 const localProd = localStorage.getItem('local_prod_laitaliana');
-                cacheProductos = localProd ? JSON.parse(localProd) : [...CATALOGO_INICIAL_DISENO];
+                if (localProd) {
+                    cacheProductos = JSON.parse(localProd);
+                } else {
+                    // Primera carga: persistir catálogo inicial para que ediciones/eliminaciones sean permanentes
+                    cacheProductos = [...CATALOGO_INICIAL_DISENO];
+                    localStorage.setItem('local_prod_laitaliana', JSON.stringify(cacheProductos));
+                }
                 
                 const localTurns = localStorage.getItem('local_turns_laitaliana');
                 cacheTurnos = localTurns ? JSON.parse(localTurns) : [];
