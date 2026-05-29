@@ -639,18 +639,22 @@
             }
 
             // --- ESCUCHAS EN TIEMPO REAL (FIRESTORE) ---
+            let nubeInicializada = false;
+
             function escucharProductosNube() {
                 if (!db) return;
                 db.collection(`${ARTIFACT_PATH}/productos`).onSnapshot((snapshot) => {
-                    if (snapshot.empty) {
-                        // Si la nube está vacía, autopoblar con el catálogo maestro de diseño
-                        console.log("Poblando nube con catálogo inicial...");
+                    if (snapshot.empty && !nubeInicializada) {
+                        // Solo autopoblar en la PRIMERA carga si la nube nunca tuvo datos
+                        console.log("Primera carga: poblando nube con catálogo inicial...");
                         CATALOGO_INICIAL_DISENO.forEach(p => {
                             db.collection(`${ARTIFACT_PATH}/productos`).doc(p.id).set(p);
                         });
+                        nubeInicializada = true;
                         return;
                     }
-                    
+                    // Si está vacía pero ya fue inicializada = el admin borró todo, respetar eso
+                    nubeInicializada = true;
                     cacheProductos = [];
                     snapshot.forEach(doc => {
                         cacheProductos.push(doc.data());
@@ -1050,9 +1054,14 @@
                 if (!confirm("¿Seguro que deseas remover esta oferta del catálogo?")) return;
                 
                 if (isConfigCloudActive && db) {
-                    db.collection(`${ARTIFACT_PATH}/productos`).doc(id).delete().then(() => {
-                        window.showToast("Producto eliminado de la nube", "success");
-                    });
+                    db.collection(`${ARTIFACT_PATH}/productos`).doc(id).delete()
+                        .then(() => {
+                            window.showToast("Producto eliminado de la nube", "success");
+                        })
+                        .catch((err) => {
+                            console.error("Error al eliminar en Firebase:", err);
+                            window.showToast("Error: no se pudo eliminar. Revisa las reglas de seguridad de Firestore.", "error");
+                        });
                 } else {
                     cacheProductos = cacheProductos.filter(x => x.id !== id);
                     localStorage.setItem('local_prod_laitaliana', JSON.stringify(cacheProductos));
